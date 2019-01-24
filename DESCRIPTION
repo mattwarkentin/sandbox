@@ -1,9 +1,9 @@
 Package: sandbox
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Miscellaneous Functions
 Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
+Author: Matthew T Warkentin <warkentin@@lunenfeld.ca>
+Maintainer: Matthew T Warkentin <warkentin@@lunenfeld.ca>
 Description: More about what it does (maybe more than one line)
     Use four spaces when indenting paragraphs within the Description.
 License: What license is it under?
