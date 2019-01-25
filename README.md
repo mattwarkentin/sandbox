@@ -23,7 +23,7 @@ We have loaded the data so lets fit a ROC using `pROC`s function called `roc`.
 ``` r
 library(pROC)
 model <- glm(new ~ Sepal.Width, data = iris, family = 'binomial')
-iris$pred <- predict(model, newdata = iris)
+iris$pred <- predict(model, newdata = iris, type = 'response')
 (rocauc <- roc(iris$new, iris$pred))
 ```
 
@@ -57,4 +57,4 @@ indexOfUnion(rocobj = rocauc)
     ## [1] "Index of Union (Unal, 2017)"
     ## 
     ## $index.threshold
-    ## [1] -1.110546
+    ## [1] 0.2504493

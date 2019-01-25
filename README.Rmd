@@ -31,7 +31,7 @@ We have loaded the data so lets fit a ROC using `pROC`s function called `roc`.
 ```{r, warning=FALSE, message=FALSE}
 library(pROC)
 model <- glm(new ~ Sepal.Width, data = iris, family = 'binomial')
-iris$pred <- predict(model, newdata = iris)
+iris$pred <- predict(model, newdata = iris, type = 'response')
 (rocauc <- roc(iris$new, iris$pred))
 ```
 
