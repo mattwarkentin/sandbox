@@ -38,6 +38,8 @@ The AUC for this logistic regression model is 0.88.
 
 Now to run `IndexOfUnion` function...
 
+Here is an important concept [1]
+
 ``` r
 library(sandbox)
 indexOfUnion(rocobj = rocauc)
@@ -58,3 +60,5 @@ indexOfUnion(rocobj = rocauc)
     ## 
     ## $index.threshold
     ## [1] 0.2504493
+
+[1] Important citation

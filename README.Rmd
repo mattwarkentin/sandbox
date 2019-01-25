@@ -39,8 +39,11 @@ The AUC for this logistic regression model is `r round(rocauc$auc, 2)`.
 
 Now to run `IndexOfUnion` function...
 
+Here is an important concept [^1]
+
 ```{r}
 library(sandbox)
 indexOfUnion(rocobj = rocauc)
 ```
 
+[^1]: Important citation
