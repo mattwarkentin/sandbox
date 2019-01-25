@@ -4,7 +4,7 @@
 \alias{indexOfUnion}
 \title{Index of Union}
 \usage{
-indexOfUnion(roc.data)
+indexOfUnion(rocobj)
 }
 \arguments{
 \item{roc.data}{An object returned from the roc function in the package

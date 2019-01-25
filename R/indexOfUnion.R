@@ -8,7 +8,7 @@
 #' @export
 
 # Optimization function for Index of Union (Unal, 2017)
-indexOfUnion <- function(roc.data) {
+indexOfUnion <- function(rocobj) {
   message("Finding optimal threshold that minimizes the Index of Union function...")
   message("")
   message("For details see manuscript --> Unal I. Defining an Optimal Cut-Point Value in ROC Analysis: An Alternative Approach. Computational and Mathemaical Methods in Medicine. Volume 2017, Article ID 3762651")

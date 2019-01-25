@@ -36,3 +36,11 @@ iris$pred <- predict(model, newdata = iris)
 ```
 
 The AUC for this logistic regression model is `r round(rocauc$auc, 2)`.
+
+Now to run `IndexOfUnion` function...
+
+```{r}
+library(sandbox)
+indexOfUnion(rocobj = rocauc)
+```
+
