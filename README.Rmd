@@ -3,7 +3,7 @@ title: "Sandbox"
 output: github_document
 ---
 
-# Sandbox
+# Information
 
 Author: Matthew T. Warketin 
 Email: <warkentin@lunenfeld.ca>

@@ -1,8 +1,8 @@
 Sandbox
 ================
 
-Sandbox
-=======
+Information
+===========
 
 Author: Matthew T. Warketin Email: <warkentin@lunenfeld.ca>
 
