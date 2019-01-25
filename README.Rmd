@@ -5,7 +5,8 @@ output: github_document
 
 # Sandbox
 
-Author: Matthew T. Warketin <warkentin@lunenfeld.ca>
+Author: Matthew T. Warketin 
+Email: <warkentin@lunenfeld.ca>
 
 This is some text to describe my sandbox repo. This repo contains my dev code
 for miscellaneous functions that I write in R and have documented as a R package.
@@ -14,3 +15,24 @@ Here is some of the important functions in this package:
 
 - IndexOfUnion
 - That's it
+
+
+## Index of Union
+
+Here is some text to describe the `IndexOfUnion` function.
+
+```{r, echo=FALSE}
+data("iris")
+iris$new <- ifelse(iris$Species=='setosa', 1, 0)
+```
+
+We have loaded the data so lets fit a ROC using `pROC`s function called `roc`.
+
+```{r, warning=FALSE, message=FALSE}
+library(pROC)
+model <- glm(new ~ Sepal.Width, data = iris, family = 'binomial')
+iris$pred <- predict(model, newdata = iris)
+(rocauc <- roc(iris$new, iris$pred))
+```
+
+The AUC for this logistic regression model is `r round(rocauc$auc, 2)`.
