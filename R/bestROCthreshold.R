@@ -1,13 +1,16 @@
-# Citation ----------------------------------------------------------------
-
-citation <- function() {
-  message("For details see manuscript --> Unal I. Defining an Optimal Cut-Point Value in ROC Analysis: An Alternative Approach. Computational and Mathemaical Methods in Medicine. Volume 2017, Article ID 3762651")
-}
-
+#' @title Index of Union
+#'
+#' @description This function will compute the Index of Union statistic
+#'     which represents the ideal ROC threshold according to maximizing
+#'     the statistic (sensitivity - auc) + (specificity - auc)
+#'
+#' @param sens sensitivities
+#' @param spec specificities
 # Index of Union function -------------------------------------------------
 
 indexOfUnion <- function(sens, spec, thr, auc) {
-  message("Finding optimal threshold that minimizes the Index of Union function...")
+  message("Finding optimal threshold that minimizes the Index of Union
+          function...")
   message("")
 
   stopifnot(sens<=1 & sens>=0 &
@@ -27,7 +30,8 @@ indexOfUnion <- function(sens, spec, thr, auc) {
   min.row <- which.min(sum.of.terms)
 
   iu.threshold <- thr[min.row]
-  to.return <- list("Index of Union (Unal, 2017)", "index.threshold" = iu.threshold)
+  to.return <- list("Index of Union (Unal, 2017)",
+                    "index.threshold" = iu.threshold)
   message("")
   message("Search complete")
   return(to.return)
