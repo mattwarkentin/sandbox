@@ -4,8 +4,23 @@
 #'     which represents the ideal ROC threshold according to maximizing
 #'     the statistic (sensitivity - auc) + (specificity - auc)
 #'
-#' @param sens sensitivities
-#' @param spec specificities
+#' @param sens Sensitivities
+#' @param spec Specificities
+#' @param thr Threshold values for ROC
+#' @param auc Area under the ROC curve
+#'
+#' @return A list containing the Index of Union value
+#'
+#' @examples
+#' # Simulate some data
+#' sens <- runif(100,0,1)
+#' spec <- runif(100,0,1)
+#' thr <- runif(100,0,1)
+#' auc <- runif(100,0,1)
+#'
+#' indexOfUnion(sens, spec, thr, auc)
+#'
+#' @export
 # Index of Union function -------------------------------------------------
 
 indexOfUnion <- function(sens, spec, thr, auc) {
@@ -39,7 +54,27 @@ indexOfUnion <- function(sens, spec, thr, auc) {
 
 
 # Youden’s J Index --------------------------------------------------------
-
+#' @title Youden's J Index
+#'
+#' @description This function will compute Youden's J index. This is computed
+#'     by finding the threshold which maximizes the value
+#'     \code{(sensitivity + specificity - 1)}
+#'
+#' @param sens Sensitivities
+#' @param spec Specificities
+#' @param thr Threshold values for ROC
+#'
+#' @return A list containing Youden's Index
+#'
+#' @examples
+#' # Simulate some data
+#' sens <- runif(100,0,1)
+#' spec <- runif(100,0,1)
+#' thr <- runif(100,0,1)
+#'
+#' youden(sens, spec, thr)
+#'
+#' @export
 youden <- function(sens, spec, thr) {
   message("Finding optimal threshold that maximizes Youden's J index...")
   message("")
@@ -136,7 +171,8 @@ minPVal <- function(time, status, pred) {
 
 conc_prob <- function(sens, spec, thr) {
 
-  message("Finding optimal threshold that maximizes the Concordance Probability (product)...")
+  message("Finding optimal threshold that maximizes the Concordance
+          Probability (product)...")
   message("")
 
   cz.index <- sens * spec
