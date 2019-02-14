@@ -29,18 +29,20 @@
 #'
 #' calibrate(sim.data, 2, 10, 1, fgr.mod)
 #'
+#' @import dplyr
+#'
 #' @export
 #'
 
 calibrate <- function(data, horizon, groups=10, cause=1, model) {
 
   calplot <- data %>%
-    mutate(pred = predictRisk(model, times = horizon,
+    dplyr::mutate(pred = riskRegression::predictRisk(model, times = horizon,
                               cause = cause,
                               newdata = data),
            dec = ntile(pred, groups)) %>%
-    arrange(dec) %>%
-    select(time0, failure, pred, dec)
+    dplyr::arrange(dec) %>%
+    dplyr::select(time0, failure, pred, dec)
 
   exp_events <- obs_events <- exp_prob <- obs_prob <- rep(NA, groups)
 
@@ -48,9 +50,9 @@ calibrate <- function(data, horizon, groups=10, cause=1, model) {
     to_use <- calplot %>%
       filter(dec == i)
 
-    cif <- validstats::cif(timestop = to_use$time0,
-                           censvar = to_use$failure,
-                           casetype = cause)
+    cif <- cmprsk::cuminc(ftime = to_use$time0,
+                          fstatus = to_use$failure,
+                          cencode = cause)[[cause]]
 
     exp_prob[i] <- mean(to_use$pred)
     exp_events[i] <- exp_prob[i] * nrow(to_use)
@@ -59,7 +61,7 @@ calibrate <- function(data, horizon, groups=10, cause=1, model) {
       filter(failure==cause & time0<horizon) %>%
       summarise(timeval = max(time0))
 
-    obs_prob[i] <- cif$ci[which(cif$times==to_use2$timeval)]
+    obs_prob[i] <- cif$est[which(cif$time==to_use2$timeval)]
     obs_events[i] <- obs_prob[i] * nrow(to_use)
 
   }

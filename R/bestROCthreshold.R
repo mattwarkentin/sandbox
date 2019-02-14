@@ -121,7 +121,6 @@ topleft <- function(sens, spec, thr) {
 # Minimum P Value Approach ------------------------------------------------
 
 minPVal <- function(time, status, pred) {
- require(caret)
 
  message("Finding optimal threshold that minimizes the P-value...")
  message("")
@@ -139,7 +138,7 @@ minPVal <- function(time, status, pred) {
    pred.status <- ifelse(pred <= thr[44], 0, 1) # X > c
    pred.status <- as.factor(pred.status)
 
-   cmatrix <- confusionMatrix(status, pred.status)
+   cmatrix <- table(status, pred.status)
 
    sens <- as.numeric(cmatrix$byClass[1])
    spec <- as.numeric(cmatrix$byClass[2])
