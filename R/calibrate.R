@@ -29,6 +29,8 @@
 #'
 #' calibrate(sim.data, 2, 10, 1, fgr.mod)
 #'
+#' @export
+#'
 
 calibrate <- function(data, horizon, groups=10, cause=1, model) {
 
