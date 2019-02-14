@@ -13,7 +13,6 @@ RoxygenNote: 6.1.1
 Imports:
     riskRegression,
     dplyr,
-    validstats,
     caret
 Suggests: 
     knitr,
