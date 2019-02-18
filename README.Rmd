@@ -43,7 +43,7 @@ Here is an important concept [^1]
 
 ```{r}
 library(sandbox)
-indexOfUnion(rocobj = rocauc)
+?indexOfUnion
 ```
 
 [^1]: Important citation
