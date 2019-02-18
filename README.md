@@ -42,23 +42,7 @@ Here is an important concept [1]
 
 ``` r
 library(sandbox)
-indexOfUnion(rocobj = rocauc)
+?indexOfUnion
 ```
-
-    ## Finding optimal threshold that minimizes the Index of Union function...
-
-    ## 
-
-    ## For details see manuscript --> Unal I. Defining an Optimal Cut-Point Value in ROC Analysis: An Alternative Approach. Computational and Mathemaical Methods in Medicine. Volume 2017, Article ID 3762651
-
-    ## 
-
-    ## Search complete
-
-    ## [[1]]
-    ## [1] "Index of Union (Unal, 2017)"
-    ## 
-    ## $index.threshold
-    ## [1] 0.2504493
 
 [1] Important citation
