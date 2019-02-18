@@ -22,39 +22,33 @@ Vignettes are long form documentation commonly included in packages. Because the
 - Has a smaller default figure size
 - Uses a custom CSS stylesheet instead of the default Twitter Bootstrap style
 
-## Vignette Info
+## Index of Union
 
-Note the various macros within the `vignette` section of the metadata block above. These are required in order to instruct R how to build the vignette. Note that you should change the `title` field and the `\VignetteIndexEntry` to match the title of your vignette.
+Here is some text to describe the `IndexOfUnion` function.
 
-## Styles
-
-The `html_vignette` template includes a basic CSS theme. To override this theme you can specify your own CSS in the document metadata as follows:
-
-    output: 
-      rmarkdown::html_vignette:
-        css: mystyles.css
-
-## Figures
-
-The figure sizes have been customised so that you can easily put two images side-by-side. 
-
-You can enable figure captions by `fig_caption: yes` in YAML:
-
-    output:
-      rmarkdown::html_vignette:
-        fig_caption: yes
-
-Then you can use the chunk option `fig.cap = "Your figure caption."` in **knitr**.
-
-## More Examples
-
-You can write math expressions, e.g. $Y = X\beta + \epsilon$, footnotes^[A footnote here.], and tables, e.g. using `knitr::kable()`.
-
-```{r, echo=FALSE, results='asis'}
-knitr::kable(head(mtcars, 10))
+```{r, echo=FALSE}
+data("iris")
+iris$new <- ifelse(iris$Species=='setosa', 1, 0)
 ```
 
-Also a quote using `>`:
+We have loaded the data so lets fit a ROC using `pROC`s function called `roc`.
 
-> "He who gives up [code] safety for [code] speed deserves neither."
-([via](https://twitter.com/hadleywickham/status/504368538874703872))
+```{r, warning=FALSE, message=FALSE}
+library(pROC)
+model <- glm(new ~ Sepal.Width, data = iris, family = 'binomial')
+iris$pred <- predict(model, newdata = iris, type = 'response')
+(rocauc <- roc(iris$new, iris$pred))
+```
+
+The AUC for this logistic regression model is `r round(rocauc$auc, 2)`.
+
+Now to run `IndexOfUnion` function...
+
+Here is an important concept [^1]
+
+```{r}
+library(sandbox)
+?indexOfUnion
+```
+
+[^1]: Important citation

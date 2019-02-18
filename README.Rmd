@@ -13,37 +13,13 @@ for miscellaneous functions that I write in R and have documented as a R package
 
 Here is some of the important functions in this package:
 
-- IndexOfUnion
-- That's it
 
-
-## Index of Union
-
-Here is some text to describe the `IndexOfUnion` function.
-
-```{r, echo=FALSE}
-data("iris")
-iris$new <- ifelse(iris$Species=='setosa', 1, 0)
-```
-
-We have loaded the data so lets fit a ROC using `pROC`s function called `roc`.
-
-```{r, warning=FALSE, message=FALSE}
-library(pROC)
-model <- glm(new ~ Sepal.Width, data = iris, family = 'binomial')
-iris$pred <- predict(model, newdata = iris, type = 'response')
-(rocauc <- roc(iris$new, iris$pred))
-```
-
-The AUC for this logistic regression model is `r round(rocauc$auc, 2)`.
-
-Now to run `IndexOfUnion` function...
-
-Here is an important concept [^1]
-
-```{r}
-library(sandbox)
-?indexOfUnion
-```
-
-[^1]: Important citation
+- Best ROC Thresholds
+    - `indexOfUnion`
+    - `youden`
+    - `topleft`
+    - `minPVal`
+    - `conc_prob`
+- Competing Risk calibration metrics
+    - `calibrate`
+    

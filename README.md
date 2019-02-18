@@ -10,39 +10,11 @@ This is some text to describe my sandbox repo. This repo contains my dev code fo
 
 Here is some of the important functions in this package:
 
--   IndexOfUnion
--   That's it
-
-Index of Union
---------------
-
-Here is some text to describe the `IndexOfUnion` function.
-
-We have loaded the data so lets fit a ROC using `pROC`s function called `roc`.
-
-``` r
-library(pROC)
-model <- glm(new ~ Sepal.Width, data = iris, family = 'binomial')
-iris$pred <- predict(model, newdata = iris, type = 'response')
-(rocauc <- roc(iris$new, iris$pred))
-```
-
-    ## 
-    ## Call:
-    ## roc.default(response = iris$new, predictor = iris$pred)
-    ## 
-    ## Data: iris$pred in 100 controls (iris$new 0) < 50 cases (iris$new 1).
-    ## Area under the curve: 0.8796
-
-The AUC for this logistic regression model is 0.88.
-
-Now to run `IndexOfUnion` function...
-
-Here is an important concept [1]
-
-``` r
-library(sandbox)
-?indexOfUnion
-```
-
-[1] Important citation
+-   Best ROC Thresholds
+    -   `indexOfUnion`
+    -   `youden`
+    -   `topleft`
+    -   `minPVal`
+    -   `conc_prob`
+-   Competing Risk calibration metrics
+    -   `calibrate`

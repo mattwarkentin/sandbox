@@ -81,36 +81,21 @@
 <p>This is some text to describe my sandbox repo. This repo contains my dev code for miscellaneous functions that I write in R and have documented as a R package.</p>
 <p>Here is some of the important functions in this package:</p>
 <ul>
-<li>IndexOfUnion</li>
-<li>That’s it</li>
+<li>Best ROC Thresholds
+<ul>
+<li><code>indexOfUnion</code></li>
+<li><code>youden</code></li>
+<li><code>topleft</code></li>
+<li><code>minPVal</code></li>
+<li><code>conc_prob</code></li>
 </ul>
-<div id="index-of-union" class="section level2">
-<h2 class="hasAnchor">
-<a href="#index-of-union" class="anchor"></a>Index of Union</h2>
-<p>Here is some text to describe the <code>IndexOfUnion</code> function.</p>
-<p>We have loaded the data so lets fit a ROC using <code>pROC</code>s function called <code>roc</code>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(pROC)
-model &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/glm">glm</a></span>(new <span class="op">~</span><span class="st"> </span>Sepal.Width, <span class="dt">data =</span> iris, <span class="dt">family =</span> <span class="st">'binomial'</span>)
-iris<span class="op">$</span>pred &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/predict">predict</a></span>(model, <span class="dt">newdata =</span> iris, <span class="dt">type =</span> <span class="st">'response'</span>)
-(rocauc &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/pROC/topics/roc">roc</a></span>(iris<span class="op">$</span>new, iris<span class="op">$</span>pred))</code></pre></div>
-<pre><code>## 
-## Call:
-## roc.default(response = iris$new, predictor = iris$pred)
-## 
-## Data: iris$pred in 100 controls (iris$new 0) &lt; 50 cases (iris$new 1).
-## Area under the curve: 0.8796</code></pre>
-<p>The AUC for this logistic regression model is 0.88.</p>
-<p>Now to run <code>IndexOfUnion</code> function…</p>
-<p>Here is an important concept <a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(sandbox)
-?indexOfUnion</code></pre></div>
-</div>
-</div>
-<div class="footnotes">
-<hr>
-<ol>
-<li id="fn1"><p>Important citation<a href="#fnref1">↩</a></p></li>
-</ol>
+</li>
+<li>Competing Risk calibration metrics
+<ul>
+<li><code>calibrate</code></li>
+</ul>
+</li>
+</ul>
 </div>
   </div>
 
