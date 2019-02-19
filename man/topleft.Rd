@@ -20,8 +20,8 @@ A list with two elements. The first element is a character string
 }
 \description{
 Provides the receiver operating characteristic (ROC) threshold
-    that maximizes the concordance probability. The concordance probability
-    is the product of the sensitivity and specificity.
+    that finds the closest distance (Euclidean dist.) to the top left corner
+    of the ROC plot.
 }
 \examples{
 

@@ -28,7 +28,7 @@ This function will compute the Index of Union statistic
 sens <- runif(100,0,1)
 spec <- runif(100,0,1)
 thr <- runif(100,0,1)
-auc <- runif(100,0,1)
+auc <- runif(1,0,1)
 
 indexOfUnion(sens, spec, thr, auc)
 

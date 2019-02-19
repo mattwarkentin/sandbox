@@ -7,28 +7,27 @@
 minPVal(time, status, pred)
 }
 \arguments{
-\item{sens}{Sensitivity}
+\item{time}{Follow-up time}
 
-\item{spec}{Specificity}
+\item{status}{Censoring status}
 
-\item{thr}{Threshold}
+\item{pred}{Predictions}
 }
 \value{
 A list with two elements. The first element is a character string
     letting you know which result is returned. The second element is the
-    concordance threshold
+    threshold which minimizes the p-value
 }
 \description{
 Provides the receiver operating characteristic (ROC) threshold
-    that maximizes the concordance probability. The concordance probability
-    is the product of the sensitivity and specificity.
+    that minimizes the P-value.
 }
 \examples{
 
-sens <- runif(100, 0, 1)
-spec <- runif(100, 0, 1)
-thr <- runif(100, 0, 1)
+time <- rexp(100, 10)
+status <- rbinom(100, 1, 0.5)
+pred <- runif(100, 0, 1)
 
-conc_prob(sens, spec, thr)
+minPVal(time, status, pred)
 
 }

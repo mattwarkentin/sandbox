@@ -16,7 +16,7 @@
 #' sens <- runif(100,0,1)
 #' spec <- runif(100,0,1)
 #' thr <- runif(100,0,1)
-#' auc <- runif(100,0,1)
+#' auc <- runif(1,0,1)
 #'
 #' indexOfUnion(sens, spec, thr, auc)
 #'
@@ -75,6 +75,7 @@ indexOfUnion <- function(sens, spec, thr, auc) {
 #' youden(sens, spec, thr)
 #'
 #' @export
+
 youden <- function(sens, spec, thr) {
   message("Finding optimal threshold that maximizes Youden's J index...")
   message("")
@@ -100,8 +101,8 @@ youden <- function(sens, spec, thr) {
 #' @title Closest to Top Left
 #'
 #' @description Provides the receiver operating characteristic (ROC) threshold
-#'     that maximizes the concordance probability. The concordance probability
-#'     is the product of the sensitivity and specificity.
+#'     that finds the closest distance (Euclidean dist.) to the top left corner
+#'     of the ROC plot.
 #'
 #' @param sens Sensitivity
 #' @param spec Specificity
@@ -145,24 +146,23 @@ topleft <- function(sens, spec, thr) {
 #' @title Minimum P-value
 #'
 #' @description Provides the receiver operating characteristic (ROC) threshold
-#'     that maximizes the concordance probability. The concordance probability
-#'     is the product of the sensitivity and specificity.
+#'     that minimizes the P-value.
 #'
-#' @param sens Sensitivity
-#' @param spec Specificity
-#' @param thr Threshold
+#' @param time Follow-up time
+#' @param status Censoring status
+#' @param pred Predictions
 #'
 #' @return A list with two elements. The first element is a character string
 #'     letting you know which result is returned. The second element is the
-#'     concordance threshold
+#'     threshold which minimizes the p-value
 #'
 #' @examples
 #'
-#' sens <- runif(100, 0, 1)
-#' spec <- runif(100, 0, 1)
-#' thr <- runif(100, 0, 1)
+#' time <- rexp(100, 10)
+#' status <- rbinom(100, 1, 0.5)
+#' pred <- runif(100, 0, 1)
 #'
-#' conc_prob(sens, spec, thr)
+#' minPVal(time, status, pred)
 #'
 #' @export
 
