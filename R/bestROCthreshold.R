@@ -144,7 +144,7 @@ topleft <- function(sens, spec, thr) {
 # Minimum P Value Approach ------------------------------------------------
 #' @title Minimum P-value
 #'
-#' #' @description Provides the receiver operating characteristic (ROC) threshold
+#' @description Provides the receiver operating characteristic (ROC) threshold
 #'     that maximizes the concordance probability. The concordance probability
 #'     is the product of the sensitivity and specificity.
 #'

@@ -2,11 +2,7 @@
 % Please edit documentation in R/bestROCthreshold.R
 \name{minPVal}
 \alias{minPVal}
-\title{Minimum P-value
-
-#' @description Provides the receiver operating characteristic (ROC) threshold
-    that maximizes the concordance probability. The concordance probability
-    is the product of the sensitivity and specificity.}
+\title{Minimum P-value}
 \usage{
 minPVal(time, status, pred)
 }
@@ -23,9 +19,7 @@ A list with two elements. The first element is a character string
     concordance threshold
 }
 \description{
-Minimum P-value
-
-#' @description Provides the receiver operating characteristic (ROC) threshold
+Provides the receiver operating characteristic (ROC) threshold
     that maximizes the concordance probability. The concordance probability
     is the product of the sensitivity and specificity.
 }
