@@ -97,6 +97,29 @@ youden <- function(sens, spec, thr) {
 
 
 # Closest to Top Left ROC Index -------------------------------------------
+#' @title Closest to Top Left
+#'
+#' @description Provides the receiver operating characteristic (ROC) threshold
+#'     that maximizes the concordance probability. The concordance probability
+#'     is the product of the sensitivity and specificity.
+#'
+#' @param sens Sensitivity
+#' @param spec Specificity
+#' @param thr Threshold
+#'
+#' @return A list with two elements. The first element is a character string
+#'     letting you know which result is returned. The second element is the
+#'     top-left threshold
+#'
+#' @examples
+#'
+#' sens <- runif(100, 0, 1)
+#' spec <- runif(100, 0, 1)
+#' thr <- runif(100, 0, 1)
+#'
+#' topleft(sens, spec, thr)
+#'
+#' @export
 
 topleft <- function(sens, spec, thr) {
 
@@ -119,6 +142,29 @@ topleft <- function(sens, spec, thr) {
 
 
 # Minimum P Value Approach ------------------------------------------------
+#' @title Minimum P-value
+#'
+#' #' @description Provides the receiver operating characteristic (ROC) threshold
+#'     that maximizes the concordance probability. The concordance probability
+#'     is the product of the sensitivity and specificity.
+#'
+#' @param sens Sensitivity
+#' @param spec Specificity
+#' @param thr Threshold
+#'
+#' @return A list with two elements. The first element is a character string
+#'     letting you know which result is returned. The second element is the
+#'     concordance threshold
+#'
+#' @examples
+#'
+#' sens <- runif(100, 0, 1)
+#' spec <- runif(100, 0, 1)
+#' thr <- runif(100, 0, 1)
+#'
+#' conc_prob(sens, spec, thr)
+#'
+#' @export
 
 minPVal <- function(time, status, pred) {
 
@@ -148,7 +194,8 @@ minPVal <- function(time, status, pred) {
    u <- cmatrix$table[2]
    v <- cmatrix$table[1]
 
-   test.stat <- (N * ((s * v) - (u * r))^2) / ((s + r) * (u + v) * (s + u) * (r + v))
+   test.stat <- (N * ((s * v) - (u * r))^2) / ((s + r) * (u + v) * (s + u) *
+                                                 (r + v))
 
    pval_chisq1[i] <- (pchisq(test.stat, df = 1, lower.tail = F))
  }
@@ -167,6 +214,30 @@ minPVal <- function(time, status, pred) {
 }
 
 # Concordance Probability Method (CZ) -------------------------------------
+
+#' @title Concordance Probability
+#'
+#' @description Provides the receiver operating characteristic (ROC) threshold
+#'     that maximizes the concordance probability. The concordance probability
+#'     is the product of the sensitivity and specificity.
+#'
+#' @param sens Sensitivity
+#' @param spec Specificity
+#' @param thr Threshold
+#'
+#' @return A list with two elements. The first element is a character string
+#'     letting you know which result is returned. The second element is the
+#'     concordance threshold
+#'
+#' @examples
+#'
+#' sens <- runif(100, 0, 1)
+#' spec <- runif(100, 0, 1)
+#' thr <- runif(100, 0, 1)
+#'
+#' conc_prob(sens, spec, thr)
+#'
+#' @export
 
 conc_prob <- function(sens, spec, thr) {
 
