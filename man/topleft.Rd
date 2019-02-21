@@ -15,13 +15,13 @@ topleft(sens, spec, thr)
 }
 \value{
 A list with two elements. The first element is a character string
-    letting you know which result is returned. The second element is the
-    top-left threshold
+    letting you know which type of result is returned. The second element is the
+    threshold which corresponds to the minimized distance
 }
 \description{
 Provides the receiver operating characteristic (ROC) threshold
-    that finds the closest distance (Euclidean dist.) to the top left corner
-    of the ROC plot.
+    (x-axis) that minimizes the distance from the ROC curve to the  to the
+    top left corner of the plot (1,1)
 }
 \examples{
 

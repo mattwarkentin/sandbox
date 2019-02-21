@@ -20,7 +20,7 @@ A list with two elements. The first element is a character string
 }
 \description{
 Provides the receiver operating characteristic (ROC) threshold
-    that minimizes the P-value.
+    that minimizes the P-value according to Unal (2017), Article ID 3762651
 }
 \examples{
 
