@@ -2,6 +2,9 @@
 
 export(calibrate)
 export(conc_prob)
+export(crop_array)
+export(crop_dicom)
+export(dicom2nifti)
 export(indexOfUnion)
 export(minPVal)
 export(topleft)

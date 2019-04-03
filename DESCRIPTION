@@ -13,7 +13,10 @@ RoxygenNote: 6.1.1
 Imports:
     riskRegression,
     dplyr,
-    cmprsk
+    cmprsk,
+    glue,
+    oro.dicom,
+    fs
 Suggests: 
     knitr,
     rmarkdown
