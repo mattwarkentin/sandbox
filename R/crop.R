@@ -31,7 +31,7 @@ crop_dicom <- function(path, x=NULL, y=NULL, z=NULL,
     x %% 2 == 1
   }
 
-  on_failure(is_odd) <- function(call, env) {
+  assertthat::on_failure(is_odd) <- function(call, env) {
     paste0(deparse(call$x), " is even; provide odd dimensions")
   }
 
@@ -46,14 +46,14 @@ crop_dicom <- function(path, x=NULL, y=NULL, z=NULL,
     width  <- width
   }
 
-  assert_that(is_odd(height), is_odd(width))
+  assertthat::assert_that(is_odd(height), is_odd(width))
 
-  assert_that(!is.null(x), !is.null(y), !is.null(z))
-  assert_that(noNA(x), noNA(y), noNA(z))
+  assertthat::assert_that(!is.null(x), !is.null(y), !is.null(z))
+  assertthat::assert_that(noNA(x), noNA(y), noNA(z))
 
   dcm <- oro.dicom::readDICOM(path, flipud = FALSE)
 
-  reorder_index <- extractHeader(dcm$hdr, 'InstanceNumber') %>%
+  reorder_index <- oro.dicom::extractHeader(dcm$hdr, 'InstanceNumber') %>%
     tibble::enframe() %>%
     dplyr::rename(list_order = name,
            slice_order = value) %>%
@@ -104,11 +104,11 @@ crop_array<- function(array, x=NULL, y=NULL, z=NULL,
                       verbose = FALSE){
 
   is_odd <- function(x) {
-    assert_that(is.numeric(x), length(x) == 1)
+    assertthat::assert_that(is.numeric(x), length(x) == 1)
     x %% 2 == 1
   }
 
-  on_failure(is_odd) <- function(call, env) {
+  assertthat::on_failure(is_odd) <- function(call, env) {
     paste0(deparse(call$x), " is even; provide odd dimensions")
   }
 
@@ -123,10 +123,10 @@ crop_array<- function(array, x=NULL, y=NULL, z=NULL,
     width  <- width
   }
 
-  assert_that(is_odd(height), is_odd(width))
+  assertthat::assert_that(is_odd(height), is_odd(width))
 
-  assert_that(!is.null(x), !is.null(y), !is.null(z))
-  assert_that(noNA(x), noNA(y), noNA(z))
+  assertthat::assert_that(!is.null(x), !is.null(y), !is.null(z))
+  assertthat::assert_that(noNA(x), noNA(y), noNA(z))
 
   x <- as.integer(x)
   y <- as.integer(y)
