@@ -70,14 +70,15 @@ crop_dicom <- function(path, x=NULL, y=NULL, z=NULL,
 
   z <- as.integer(z)
   add_slices <- as.integer(add_slices)
-  height <- (as.integer(height) - 1) / 2
-  width  <- (as.integer(width) - 1) / 2
+  added_height <- (as.integer(height) - 1) / 2
+  added_width  <- (as.integer(width) - 1) / 2
+  tot_slices <- 1 + (add_slices * 2)
 
-  a = x - height
-  b = x + height
+  a = x - added_height
+  b = x + added_height
 
-  c = y - width
-  d = y + width
+  c = y - added_width
+  d = y + added_width
 
   e = z - add_slices
   f = z + add_slices
@@ -86,7 +87,7 @@ crop_dicom <- function(path, x=NULL, y=NULL, z=NULL,
   array <- scales::rescale(array, to = c(0, 1), from = c(0,4096))
 
   if (verbose) {
-    cat(glue::glue('Cropped {path} to dimension {height} x {width} x {add_slices * 2 + 1} (rows * columns * slices)'))
+    cat(glue::glue('Cropped {path} to dimension {height} x {width} x {tot_slices} (rows * columns * slices)'))
     return(array)
   } else {
     return(array)
@@ -132,14 +133,15 @@ crop_array<- function(array, x=NULL, y=NULL, z=NULL,
 
   z <- as.integer(z)
   add_slices <- as.integer(add_slices)
-  height <- (as.integer(height) - 1) / 2
-  width  <- (as.integer(width) - 1) / 2
+  added_height <- (as.integer(height) - 1) / 2
+  added_width  <- (as.integer(width) - 1) / 2
+  tot_slices <- 1 + (add_slices * 2)
 
-  a = x - height
-  b = x + height
+  a = x - added_height
+  b = x + added_height
 
-  c = y - width
-  d = y + width
+  c = y - added_width
+  d = y + added_width
 
   e = z - add_slices
   f = z + add_slices
@@ -148,7 +150,7 @@ crop_array<- function(array, x=NULL, y=NULL, z=NULL,
   array <- scales::rescale(array, to = c(0, 1), from = c(0,4096))
 
   if (verbose) {
-    cat(glue::glue('Cropped array to dimension {height} x {width} x {add_slices * 2 + 1} (rows * columns * slices)'))
+    cat(glue::glue('Cropped array to dimension {height} x {width} x {tot_slices} (rows * columns * slices)'))
     return(array)
   } else {
     return(array)
