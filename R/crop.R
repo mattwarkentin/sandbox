@@ -7,13 +7,12 @@
 #' @param x x-coordinate for the centroid.
 #' @param y y-coordinate for the centroid.
 #' @param z z-coordinate for the centroid.
-#' @param num_slices_sup Number of slices to add superiorly.
-#' @param num_slices_inf Number of slices to add inferiorly.
+#' @param add_slices Number of slices to add above/below index slice (z).
 #' @param height Integer that describes the spatial row dimension.
 #' @param width Integer that describes the spatial column dimension.
-#' @param verbose A logical value (default is FALSE) for printing a message
+#' @param verbose A logical flag (default is FALSE) for printing messages
 #'
-#' @note This function utilizes \code{\link{oro.dicom}} for its importing functionality. In general, \code{crop_array} is used internally to crop the DICOM series after conversion to a 3D array. However, I have exposed this function so that one can crop an array directly.
+#' @note This function utilizes \code{\link{oro.dicom}} for its importing functionality. In general, \code{crop_dicom} will be used to crop the DICOM series after conversion to a 3D array. However, I have exposed the \code{crop_dicom} function so that one can crop an array directly if it has already be converted to a 3D-array.
 #'
 #' @return A 3D array object (rows x columns x slices)
 #'
@@ -21,18 +20,45 @@
 #'
 #' @export
 
-crop_dicom <- function(path, x, y, z, add_slices, height, width){
+crop_dicom <- function(path, x=NULL, y=NULL, z=NULL,
+                       add_slices=1, height=NULL, width=NULL,
+                       verbose = FALSE){
 
   assertthat::assert_that(fs::dir_exists(path))
+
+  is_odd <- function(x) {
+    assert_that(is.numeric(x), length(x) == 1)
+    x %% 2 == 1
+  }
+
+  on_failure(is_odd) <- function(call, env) {
+    paste0(deparse(call$x), " is even; provide odd dimensions")
+  }
+
+  if (is.null(height) & is.numeric(width) ) {
+    height <- width
+    message('Height not supplied; using width to crop square matrices')
+  } else if  (is.null(width) & is.numeric(height) ) {
+    width <- height
+    message('Width not supplied; using height to crop square matrices')
+  } else {
+    height <- height
+    width  <- width
+  }
+
+  assert_that(is_odd(height), is_odd(width))
+
+  assert_that(!is.null(x), !is.null(y), !is.null(z))
+  assert_that(noNA(x), noNA(y), noNA(z))
 
   dcm <- oro.dicom::readDICOM(path, flipud = FALSE)
 
   reorder_index <- extractHeader(dcm$hdr, 'InstanceNumber') %>%
     tibble::enframe() %>%
-    rename(list_order = name,
+    dplyr::rename(list_order = name,
            slice_order = value) %>%
-    arrange(desc(slice_order)) %>%
-    pull(list_order)
+    dplyr::arrange(desc(slice_order)) %>%
+    dplyr::pull(list_order)
 
   dcm$img <- dcm$img[reorder_index]
   dcm$hdr <- dcm$hdr[reorder_index]
@@ -59,7 +85,12 @@ crop_dicom <- function(path, x, y, z, add_slices, height, width){
   array <- array[a:b, c:d, e:f]
   array <- scales::rescale(array, to = c(0, 1), from = c(0,4096))
 
-  return(array)
+  if (verbose) {
+    cat(glue::glue('Cropped {path} to dimension {height} x {width} x {add_slices * 2 + 1} (rows * columns * slices)'))
+    return(array)
+  } else {
+    return(array)
+  }
 
 }
 
@@ -67,7 +98,34 @@ crop_dicom <- function(path, x, y, z, add_slices, height, width){
 #' @export
 #' @rdname crop_dicom
 
-crop_array<- function(array, x, y, z, add_slices, height, width){
+crop_array<- function(array, x=NULL, y=NULL, z=NULL,
+                      add_slices=1, height=NULL, width=NULL,
+                      verbose = FALSE){
+
+  is_odd <- function(x) {
+    assert_that(is.numeric(x), length(x) == 1)
+    x %% 2 == 1
+  }
+
+  on_failure(is_odd) <- function(call, env) {
+    paste0(deparse(call$x), " is even; provide odd dimensions")
+  }
+
+  if (is.null(height) & is.numeric(width) ) {
+    height <- width
+    message('Height not supplied; using width to crop square matrices')
+  } else if  (is.null(width) & is.numeric(height) ) {
+    width <- height
+    message('Width not supplied; using height to crop square matrices')
+  } else {
+    height <- height
+    width  <- width
+  }
+
+  assert_that(is_odd(height), is_odd(width))
+
+  assert_that(!is.null(x), !is.null(y), !is.null(z))
+  assert_that(noNA(x), noNA(y), noNA(z))
 
   x <- as.integer(x)
   y <- as.integer(y)
@@ -89,6 +147,11 @@ crop_array<- function(array, x, y, z, add_slices, height, width){
   array <- array[a:b, c:d, e:f]
   array <- scales::rescale(array, to = c(0, 1), from = c(0,4096))
 
-  return(array)
+  if (verbose) {
+    cat(glue::glue('Cropped array to dimension {height} x {width} x {add_slices * 2 + 1} (rows * columns * slices)'))
+    return(array)
+  } else {
+    return(array)
+  }
 
 }

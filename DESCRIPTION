@@ -12,11 +12,13 @@ LazyData: true
 RoxygenNote: 6.1.1
 Imports:
     riskRegression,
-    dplyr,
     cmprsk,
     glue,
     oro.dicom,
-    fs
+    fs,
+    assertthat,
+    dplyr,
+    tibble
 Suggests: 
     knitr,
     rmarkdown

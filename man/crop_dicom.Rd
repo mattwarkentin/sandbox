@@ -5,11 +5,11 @@
 \alias{crop_array}
 \title{Crop a DICOM series to an array}
 \usage{
-crop_dicom(path, x, y, z, num_slices_sup, num_slices_inf, height, width,
-  verbose = FALSE)
+crop_dicom(path, x = NULL, y = NULL, z = NULL, add_slices = 1,
+  height = NULL, width = NULL, verbose = FALSE)
 
-crop_array(array, x, y, z, num_slices_sup, num_slices_inf, height, width,
-  verbose = FALSE)
+crop_array(array, x = NULL, y = NULL, z = NULL, add_slices = 1,
+  height = NULL, width = NULL, verbose = FALSE)
 }
 \arguments{
 \item{path}{Path to DICOM series.}
@@ -20,15 +20,13 @@ crop_array(array, x, y, z, num_slices_sup, num_slices_inf, height, width,
 
 \item{z}{z-coordinate for the centroid.}
 
-\item{num_slices_sup}{Number of slices to add superiorly.}
-
-\item{num_slices_inf}{Number of slices to add inferiorly.}
+\item{add_slices}{Number of slices to add above/below index slice (z).}
 
 \item{height}{Integer that describes the spatial row dimension.}
 
 \item{width}{Integer that describes the spatial column dimension.}
 
-\item{verbose}{A logical value (default is FALSE) for printing a message}
+\item{verbose}{A logical flag (default is FALSE) for printing messages}
 
 \item{array}{A 3D array}
 }
@@ -39,7 +37,7 @@ A 3D array object (rows x columns x slices)
 \code{crop_dicom} will take a directory containing a DICOM series as an input volumes, and will crop the volume to dimensions determined by \code{height}, \code{width}, \code{num_slices_sup}, and \code{num_slices_inf}. The coordinates \code{x,y,z} orient the cropping task to a centroid. The function returns a 3D array object.
 }
 \note{
-This function utilizes \code{\link{oro.dicom}} for its importing functionality. In general, \code{crop_array} is used internally to crop the DICOM series after conversion to a 3D array. However, I have exposed this function so that one can crop an array directly.
+This function utilizes \code{\link{oro.dicom}} for its importing functionality. In general, \code{crop_dicom} will be used to crop the DICOM series after conversion to a 3D array. However, I have exposed the \code{crop_dicom} function so that one can crop an array directly if it has already be converted to a 3D-array.
 }
 \author{
 Matthew T. Warkentin (warkentin@lunenfeld.ca)
