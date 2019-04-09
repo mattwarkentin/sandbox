@@ -14,3 +14,48 @@
 dicom2nifti <- function(dicom_dir, nifti_dir, ...) {
   NULL
 }
+
+
+
+# Check for dicome2nifti CLI ----
+
+find_program <- function(program) {
+  if (is_osx()) {
+    res <- suppressWarnings({
+      sanitized_path <- gsub("\\", "\\\\", Sys.getenv("PATH"),
+                             fixed = TRUE)
+      sanitized_path <- gsub("\"", "\\\"", sanitized_path,
+                             fixed = TRUE)
+      system(paste0("PATH=\"", sanitized_path, "\" /usr/bin/which ",
+                    program), intern = TRUE)
+    })
+    if (length(res) == 0)
+      "found"
+    else 'not'
+  }
+  else {
+    Sys.which(program)
+  }
+}
+
+# Check dicom2nifi version ----
+
+d2n_ver <- function(){
+  NULL
+}
+
+
+
+is_osx <- function(){
+  Sys.info()['sysname'] == 'Darwin'
+}
+
+is_windows <- function(){
+  identical(.Platform$OS.type, 'windows')
+}
+
+
+
+
+
+

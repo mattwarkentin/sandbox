@@ -21,45 +21,31 @@
 #'
 #' @export
 
-crop_dicom <- function(path, x, y, z,
-                       num_slices_sup, num_slices_inf,
-                       height, width, verbose = FALSE) {
+crop_dicom <- function(path, x, y, z, add_slices, height, width){
 
   assertthat::assert_that(fs::dir_exists(path))
 
-  dcm <- readDICOM(path)
+  dcm <- oro.dicom::readDICOM(path, flipud = FALSE)
 
-  array <- create3D(dcm)
+  reorder_index <- extractHeader(dcm$hdr, 'InstanceNumber') %>%
+    tibble::enframe() %>%
+    rename(list_order = name,
+           slice_order = value) %>%
+    arrange(desc(slice_order)) %>%
+    pull(list_order)
 
-  crop_array(array, x, y, z, num_slices_sup, num_slices_inf, height, width)
-}
+  dcm$img <- dcm$img[reorder_index]
+  dcm$hdr <- dcm$hdr[reorder_index]
 
-
-# Workhorse cropping function ----
-
-#' @export
-#' @rdname crop_dicom
-
-crop_array <- function(array, x, y, z,
-                       num_slices_sup, num_slices_inf,
-                       height, width, verbose = FALSE) {
+  array <- oro.dicom::create3D(dcm)
 
   x <- as.integer(x)
   y <- as.integer(y)
+
   z <- as.integer(z)
-  num_slices_sup <- as.integer(num_slices_sup)
-  num_slices_inf <- as.integer(num_slices_inf)
-
-  height <- as.integer(height)
-  width <- as.integer(width)
-
-  slices = num_slices_sup + num_slices_inf + 1
-  mat_height = height + height + 1
-  mat_width  = width + width + 1
-
-  if (verbose) {
-  cat(glue('Cropping array to dimensions {mat_height} x {mat_width} x {slices} (rows x cols x slices)', .sep = ''))
-  }
+  add_slices <- as.integer(add_slices)
+  height <- (as.integer(height) - 1) / 2
+  width  <- (as.integer(width) - 1) / 2
 
   a = x - height
   b = x + height
@@ -67,9 +53,42 @@ crop_array <- function(array, x, y, z,
   c = y - width
   d = y + width
 
-  e = z - num_slices_inf
-  f = z + num_slices_sup
+  e = z - add_slices
+  f = z + add_slices
 
-  array[a:b, c:d, e:f]
+  array <- array[a:b, c:d, e:f]
+  array <- scales::rescale(array, to = c(0, 1), from = c(0,4096))
+
+  return(array)
+
+}
+
+
+#' @export
+#' @rdname crop_dicom
+
+crop_array<- function(array, x, y, z, add_slices, height, width){
+
+  x <- as.integer(x)
+  y <- as.integer(y)
+
+  z <- as.integer(z)
+  add_slices <- as.integer(add_slices)
+  height <- (as.integer(height) - 1) / 2
+  width  <- (as.integer(width) - 1) / 2
+
+  a = x - height
+  b = x + height
+
+  c = y - width
+  d = y + width
+
+  e = z - add_slices
+  f = z + add_slices
+
+  array <- array[a:b, c:d, e:f]
+  array <- scales::rescale(array, to = c(0, 1), from = c(0,4096))
+
+  return(array)
 
 }
