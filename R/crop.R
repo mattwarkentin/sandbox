@@ -27,7 +27,7 @@ crop_dicom <- function(path, x=NULL, y=NULL, z=NULL,
   assertthat::assert_that(fs::dir_exists(path))
 
   is_odd <- function(x) {
-    assert_that(is.numeric(x), length(x) == 1)
+    assertthat::assert_that(is.numeric(x), length(x) == 1)
     x %% 2 == 1
   }
 
@@ -49,7 +49,9 @@ crop_dicom <- function(path, x=NULL, y=NULL, z=NULL,
   assertthat::assert_that(is_odd(height), is_odd(width))
 
   assertthat::assert_that(!is.null(x), !is.null(y), !is.null(z))
-  assertthat::assert_that(noNA(x), noNA(y), noNA(z))
+  assertthat::assert_that(assertthat::noNA(x),
+                          assertthat::noNA(y),
+                          assertthat::noNA(z))
 
   dcm <- oro.dicom::readDICOM(path, flipud = FALSE)
 
@@ -126,7 +128,9 @@ crop_array<- function(array, x=NULL, y=NULL, z=NULL,
   assertthat::assert_that(is_odd(height), is_odd(width))
 
   assertthat::assert_that(!is.null(x), !is.null(y), !is.null(z))
-  assertthat::assert_that(noNA(x), noNA(y), noNA(z))
+  assertthat::assert_that(assertthat::noNA(x),
+                          assertthat::noNA(y),
+                          assertthat::noNA(z))
 
   x <- as.integer(x)
   y <- as.integer(y)
