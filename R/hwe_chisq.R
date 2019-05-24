@@ -2,6 +2,8 @@
 #'
 #' @description Tests for HWE for a table of counts of (aa, Aa, AA)
 #'
+#' @param counts Table of counts
+#'
 #' @export
 
 hwe_chisq <- function(counts) {

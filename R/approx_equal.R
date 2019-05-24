@@ -8,8 +8,6 @@
 #'
 #' @export
 
-'%==%' <- function(a,b, digits=10) {
-  #' Test for approximate equality
-  #'
+'%==%' <- function(a,b, digits = 10) {
   return(signif(a, digits) == signif(b, digits))
 }

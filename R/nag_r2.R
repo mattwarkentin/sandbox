@@ -1,5 +1,7 @@
 #' @title Nagelkerke's R-squared
 #'
+#' @param rr GLM model object
+#'
 #' @export
 
 nag_r2 <- function (rr) {

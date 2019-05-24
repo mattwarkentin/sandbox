@@ -1,5 +1,7 @@
 #' @title Mixed Order
 #'
+#' @param x Matrix or data.frame
+#'
 #' @export
 
 mixedorder <- function (x)

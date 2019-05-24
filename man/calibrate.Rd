@@ -4,31 +4,36 @@
 \alias{calibrate}
 \title{Competing Risk Calibration}
 \usage{
-calibrate(data, horizon, groups = 10, cause = 1, model)
+calibrate(data, horizon, ng, predvar, time, cens, cause)
 }
 \arguments{
-\item{data}{Dataframe to use for absolute risk predictions}
+\item{data}{Dataframe to use for absolute-risk predictions}
 
 \item{horizon}{Time horizon for predictions}
 
-\item{groups}{Number of deciles based on model-predicted risks (default is 10)}
+\item{ng}{Number of deciles based on model-predicted risks (default is 10)}
 
-\item{cause}{Integer value for the event-of-interest to calibrate predictions}
+\item{predvar}{Unquoted name of predicted risks in data frame}
 
-\item{model}{The returened model object from \code{\link[riskRegression]{riskRegression}}}
+\item{time}{Time}
+
+\item{cens}{Censor status}
+
+\item{cause}{Integer value for the event-of-interest to calibrate prediction}
 }
 \value{
-A list containing three elements. The first element returns a string
-   detailing the time horizon for calibration. The second element is a chi-sq
-   test statistic and p-value for the Hosmer-Lemeshow test (with DF=groups-1).
-   The third element is a \code{tibble} containining the decile index
-   along with the predicted and observed cumulative incidences, and the
-   predicted and observed events across the \code{n} risk quantiles.
+A \code{tibble} containining the decile index
+   along with the predicted and observed cumulative incidences, by decile, and the predicted and observed events across the \code{n} risk quantiles. Risk and event count differences by decile are also included.
 }
 \description{
 This function will allow you to compute calibration metrics:
    - predicted and observed probabilities
-   - predicted and observed events of interest
+   - predicted and observed event counts
+}
+\details{
+These functions uses non-standard evaluation (tidy_eval). Thus, you can pass \code{predvar}, \code{time}, and \code{cens} as unquoted.
+
+\code{calibrate} uses \code{\link{dplyr::ntile}} to place observations into groups based on predicted risks. \code{calibrate2} uses \code{\link{stats:quantile}} and \code{\link{base::cut}}, instead. This produced calibration metrics equivalent to \code{\link{validstats::cical}}. Lastly, \code{calibrate3} uses the same discretization as \code{calibrate} but uses \code{\link{cmprsk::cuminc}} instead of \code{\link{validstats::cif}} to compute the cumulative incidence function.
 }
 \examples{
 library(riskRegression)
@@ -37,10 +42,16 @@ library(riskRegression)
 sim.data <- sampleData(100, outcome = 'competing.risks')
 
 # Fit Fine-Gray Model
-fgr.mod <- FGR(formula = Hist(time, event) ~ X7 + X6 + X8 + X9,
+fgr.mod <- FGR(formula = Hist(time, event) ~ X6 + X7 + X8 + X9,
                data = sim.data, cause = 1)
 
-calibrate(sim.data, 2, 10, 1, fgr.mod)
+# Make predictions
+horizon <- median(sim.data$time)
+sim.data$preds <- predictRisk(fgr.mod, sim.data, cause = 1, time = horizon)
+
+calibrate(sim.data, horizon, 10, preds, time, events, 1)
+calibrate2(sim.data, horizon, 10, preds, time, events, 1)
+calibrate3(sim.data, horizon, 10, preds, time, events, 1)
 
 }
 \author{

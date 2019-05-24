@@ -2,6 +2,9 @@
 #'
 #' @description Function to get min and max for a bunch of objects (all coerced to vectors) to set xlim and ylim in plot
 #'
+#' @param ... Objects to determine min-max
+#' @param na.rm Should NA be removed?
+#'
 #' @export
 
 minmax <- function(..., na.rm=TRUE) {

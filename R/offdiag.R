@@ -2,6 +2,10 @@
 #'
 #' @description Function to extract off-diagonal elements of a square matrix.
 #'
+#' @param matrix Matrix
+#' @param upper Upper triangular portion
+#' @param both Both upper and lower?
+#'
 #' @export
 
 offdiags <- function(matrix, upper=T, both=F) {

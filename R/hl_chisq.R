@@ -3,6 +3,9 @@
 #' @description Tests for differences between observed and expected counts using the Hosmer-Lemeshow chi-squared test.
 #'
 #' @param ng Number of groups (default is 10)
+#' @param obs Observed counts
+#' @param exp Expected counts
+#' @param lower.tail Logical value for whether p-value should be from lower tail of the distribution.
 #'
 #' @export
 

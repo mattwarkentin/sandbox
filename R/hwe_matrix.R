@@ -2,6 +2,8 @@
 #'
 #' @description Tests for HWE for a matrix of table counts of (aa, Aa, AA)
 #'
+#' @param X Matrix of counts
+#'
 #' @export
 
 hwe_chisq_matrix <- function(X) {

@@ -1,5 +1,7 @@
 #' @title Mixed Sort
 #'
+#' @param x Matrix or data.frame
+#'
 #' @export
 
 mixedsort <- function (x) {

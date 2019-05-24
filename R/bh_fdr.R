@@ -4,6 +4,9 @@
 #'
 #' NOTE: Significance is defined as P <= threshold, not <.
 #'
+#' @param pvals Vector of p-values
+#' @param FDR False-discovert rate
+#'
 #' @export
 
 bh_fdr <- function(pvals, FDR=0.05) {
