@@ -1,20 +1,17 @@
 Sandbox
 ================
 
-Information
-===========
+# Information
 
 Author: Matthew T. Warketin Email: <warkentin@lunenfeld.ca>
 
-This is some text to describe my sandbox repo. This repo contains my dev code for miscellaneous functions that I write in R and have documented as a R package.
+This is my personal repository. It contains a variety of miscellaneous
+functions, many of which are poorly maintained or under heavy
+development.
 
-Here is some of the important functions in this package:
+When too many functions with a common theme build up, they will likely
+be decoupled into their own package. This repo is liable to change
+drastically.
 
--   Best ROC Thresholds
-    -   `indexOfUnion`
-    -   `youden`
-    -   `topleft`
-    -   `minPVal`
-    -   `conc_prob`
--   Competing Risk calibration metrics
-    -   `calibrate`
+Use funtions at your own risk. Please feel free to contibrute code or
+post an issue.
