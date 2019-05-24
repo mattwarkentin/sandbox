@@ -14,7 +14,7 @@
 #'
 #' @details These functions uses non-standard evaluation (tidy_eval). Thus, you can pass \code{predvar}, \code{time}, and \code{cens} as unquoted.
 #'
-#' \code{calibrate} uses \code{\link[dplyr]{ntile}} to place observations into groups based on predicted risks. \code{calibrate2} uses \code{\link[stats]{quantile}} and \code{\link[base]{cut}}, instead. This produced calibration metrics equivalent to \code{\link[validstats]{cif}}. Lastly, \code{calibrate3} uses the same discretization as \code{calibrate} but uses \code{\link[cmprsk]{cuminc}} instead of \code{\link[validstats]{cif}} to compute the cumulative incidence function.
+#' \code{calibrate} uses \code{\link[dplyr]{ntile}} to place observations into groups based on predicted risks. \code{calibrate2} uses \code{\link[stats]{quantile}} and \code{\link[base]{cut}}, instead. This produces calibration metrics equivalent to \href{http://individual.utoronto.ca/osaarela/validstats-manual.pdf}{validstats::cical}. Lastly, \code{calibrate3} uses the same discretization as \code{calibrate} but uses \code{\link[cmprsk]{cuminc}} instead of \href{http://individual.utoronto.ca/osaarela/validstats-manual.pdf}{validstats::cif} to compute the cumulative incidence function.
 #'
 #' @return A \code{tibble} containining the decile index
 #'    along with the predicted and observed cumulative incidences, by decile, and the predicted and observed events across the \code{n} risk quantiles. Risk and event count differences by decile are also included.

@@ -5,6 +5,4 @@
 #' @details Details here...
 #'
 #' @author Matthew T. Warkentin <warkentin@lunenfeld.ca>
-#'
-#' @export
 NULL
