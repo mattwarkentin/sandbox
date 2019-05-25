@@ -1,15 +1,35 @@
-#' @title Index of Union
+#' @title Optimal ROC Threshold
 #'
-#' @description This function will compute the Index of Union statistic
-#'     which represents the ideal ROC threshold according to maximizing
-#'     the statistic (sensitivity - auc) + (specificity - auc)
+#' @description Functions to identify the optimal ROC threshold according to various optimization criteria.
 #'
 #' @param sens Sensitivities
 #' @param spec Specificities
 #' @param thr Threshold values for ROC
 #' @param auc Area under the ROC curve
+#' @param time Time
+#' @param status Censoring status
+#' @param pred Predictions
 #'
-#' @return A list containing the Index of Union value
+#' @details \itemize{
+#'
+#' \item \strong{Youden's J Index}: This function will compute Youden's J index. This is computed by finding the threshold which maximizes the value \code{(sensitivity + specificity - 1)}
+#'
+#' \item \strong{Index of Union}: This function will compute the Index of Union statistic which represents the ideal ROC threshold according to maximizing the statistic (sensitivity - auc) + (specificity - auc)
+#'
+#' \item \strong{Top Left}: Provides the receiver operating characteristic (ROC) threshold
+#'     (x-axis) that minimizes the distance from the ROC curve to the  to the
+#'     top left corner of the plot (1,1)
+#'
+#' \item \strong{Minimum P-value}: Provides the receiver operating characteristic (ROC) threshold
+#'     that minimizes the P-value according to Unal (2017), Article ID 3762651
+#'
+#' \item \strong{Concordance Probability}: Provides the receiver operating characteristic (ROC) threshold
+#'     that maximizes the concordance probability. The concordance probability
+#'     is the product of the sensitivity and specificity.
+#'
+#' }
+#'
+#' @return A scalar containing the chosen threshold.
 #'
 #' @examples
 #' # Simulate some data
@@ -18,15 +38,24 @@
 #' thr <- runif(100,0,1)
 #' auc <- runif(1,0,1)
 #'
-#' indexOfUnion(sens, spec, thr, auc)
+#' index_of_union(sens, spec, thr, auc)
+#' youden(sens, spec, thr)
+#' top_left(sens, spec, thr)
+#' conc_prob(sens, spec, thr)
 #'
-#' @export
+#' @name optimal_roc
+
+NULL
+
 # Index of Union function -------------------------------------------------
 
-indexOfUnion <- function(sens, spec, thr, auc) {
+#' @rdname optimal_roc
+#'
+#' @export
+
+index_of_union <- function(sens = NULL, spec = NULL, thr = NULL, auc = NULL) {
   message("Finding optimal threshold that minimizes the Index of Union
-          function...")
-  message("")
+          function...\n")
 
   stopifnot(sens<=1 & sens>=0 &
             spec<=1 & spec>=0 &
@@ -47,36 +76,18 @@ indexOfUnion <- function(sens, spec, thr, auc) {
   iu.threshold <- thr[min.row]
   to.return <- list("Index of Union (Unal, 2017)",
                     "index.threshold" = iu.threshold)
-  message("")
-  message("Search complete")
+  message("Search complete\n")
   return(to.return)
 }
 
 
 # Youden’s J Index --------------------------------------------------------
-#' @title Youden's J Index
-#'
-#' @description This function will compute Youden's J index. This is computed
-#'     by finding the threshold which maximizes the value
-#'     \code{(sensitivity + specificity - 1)}
-#'
-#' @param sens Sensitivities
-#' @param spec Specificities
-#' @param thr Threshold values for ROC
-#'
-#' @return A list containing Youden's Index
-#'
-#' @examples
-#' # Simulate some data
-#' sens <- runif(100,0,1)
-#' spec <- runif(100,0,1)
-#' thr <- runif(100,0,1)
-#'
-#' youden(sens, spec, thr)
+
+#' @rdname optimal_roc
 #'
 #' @export
 
-youden <- function(sens, spec, thr) {
+youden <- function(sens = NULL, spec = NULL, thr = NULL) {
   message("Finding optimal threshold that maximizes Youden's J index...")
   message("")
   stopifnot(sens<=1 & sens>=0 &
@@ -98,31 +109,12 @@ youden <- function(sens, spec, thr) {
 
 
 # Closest to Top Left ROC Index -------------------------------------------
-#' @title Closest to Top Left
-#'
-#' @description Provides the receiver operating characteristic (ROC) threshold
-#'     (x-axis) that minimizes the distance from the ROC curve to the  to the
-#'     top left corner of the plot (1,1)
-#'
-#' @param sens Sensitivity
-#' @param spec Specificity
-#' @param thr Threshold
-#'
-#' @return A list with two elements. The first element is a character string
-#'     letting you know which type of result is returned. The second element is the
-#'     threshold which corresponds to the minimized distance
-#'
-#' @examples
-#'
-#' sens <- runif(100, 0, 1)
-#' spec <- runif(100, 0, 1)
-#' thr <- runif(100, 0, 1)
-#'
-#' topleft(sens, spec, thr)
+
+#' @rdname optimal_roc
 #'
 #' @export
 
-topleft <- function(sens, spec, thr) {
+top_left <- function(sens = NULL, spec = NULL, thr = NULL) {
 
   message("Finding optimal threshold that minimizes the Euclidean distance...")
   message("")
@@ -143,30 +135,12 @@ topleft <- function(sens, spec, thr) {
 
 
 # Minimum P Value Approach ------------------------------------------------
-#' @title Minimum P-value
-#'
-#' @description Provides the receiver operating characteristic (ROC) threshold
-#'     that minimizes the P-value according to Unal (2017), Article ID 3762651
-#'
-#' @param time Follow-up time
-#' @param status Censoring status
-#' @param pred Predictions
-#'
-#' @return A list with two elements. The first element is a character string
-#'     letting you know which result is returned. The second element is the
-#'     threshold which minimizes the p-value
-#'
-#' @examples
-#'
-#' time <- rexp(100, 10)
-#' status <- rbinom(100, 1, 0.5)
-#' pred <- runif(100, 0, 1)
-#'
-#' minPVal(time, status, pred)
+
+#' @rdname optimal_roc
 #'
 #' @export
 
-minPVal <- function(time, status, pred) {
+min_pval <- function(time = NULL, status = NULL, pred = NULL) {
 
  message("Finding optimal threshold that minimizes the P-value...")
  message("")
@@ -215,31 +189,11 @@ minPVal <- function(time, status, pred) {
 
 # Concordance Probability Method (CZ) -------------------------------------
 
-#' @title Concordance Probability
-#'
-#' @description Provides the receiver operating characteristic (ROC) threshold
-#'     that maximizes the concordance probability. The concordance probability
-#'     is the product of the sensitivity and specificity.
-#'
-#' @param sens Sensitivity
-#' @param spec Specificity
-#' @param thr Threshold
-#'
-#' @return A list with two elements. The first element is a character string
-#'     letting you know which result is returned. The second element is the
-#'     concordance threshold
-#'
-#' @examples
-#'
-#' sens <- runif(100, 0, 1)
-#' spec <- runif(100, 0, 1)
-#' thr <- runif(100, 0, 1)
-#'
-#' conc_prob(sens, spec, thr)
+#' @rdname optimal_roc
 #'
 #' @export
 
-conc_prob <- function(sens, spec, thr) {
+conc_prob <- function(sens = NULL, spec = NULL, thr = NULL) {
 
   message("Finding optimal threshold that maximizes the Concordance
           Probability (product)...")

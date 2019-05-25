@@ -5,8 +5,8 @@
 #' @param model Model object.
 #' @param train Training data.
 #' @param test Testing data.
-#' @param truth Ground-truth label.
-#' @param type Type of prediction; passed to predict.
+#' @param truth Ground-truth labels.
+#' @param type Type of predictions to be made; passed to predict.
 #'
 #' @export
 

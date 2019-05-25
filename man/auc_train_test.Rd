@@ -13,9 +13,9 @@ auc_train_test(model, train, test, truth, type = "response")
 
 \item{test}{Testing data.}
 
-\item{truth}{Ground-truth label.}
+\item{truth}{Ground-truth labels.}
 
-\item{type}{Type of prediction; passed to predict.}
+\item{type}{Type of predictions to be made; passed to predict.}
 }
 \description{
 Get area under the ROC curve for both training and test data.
