@@ -8,6 +8,6 @@
 #'
 #' @export
 
-'%==%' <- function(a,b, digits = 10) {
+'%==%' <- function(a, b, digits = 10) {
   return(signif(a, digits) == signif(b, digits))
 }
