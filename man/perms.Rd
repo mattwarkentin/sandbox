@@ -2,7 +2,7 @@
 % Please edit documentation in R/perm-test-funs.R
 \name{perms}
 \alias{perms}
-\title{Permutation P-Values}
+\title{Permutation Resampling}
 \usage{
 perms(data = NULL, ..., strata = NULL, times = 25,
   apparent = FALSE, seed = NULL)

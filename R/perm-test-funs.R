@@ -1,4 +1,4 @@
-#' @title Permutation P-Values
+#' @title Permutation Resampling
 #'
 #' @description A function for generating permuted datasets; where one can permute as many columns as desired. Stratified (i.e. group-based) shuffling can be achieved by specifying a column name for the \code{strata} argument. See details for a more complete description and guidance on usage.
 #'
