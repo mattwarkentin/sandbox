@@ -10,7 +10,7 @@ perms(data = NULL, ..., strata = NULL, times = 25,
 \arguments{
 \item{data}{A data frame.}
 
-\item{...}{Variables in data frame to permute/shuffle.}
+\item{...}{Column names in \code{data} to permute/shuffle; or one of the \code{\link[tidyselect]{select_helpers}}.}
 
 \item{strata}{A discrete varible for stratified permutations.}
 
@@ -21,7 +21,7 @@ perms(data = NULL, ..., strata = NULL, times = 25,
 \item{seed}{A numeric value used to set the RNG seed for reproducible permutations.}
 }
 \value{
-A data frame (\code{\link{tibble}}) where each row is a permuted version of the input data. The returned data frame has the added class \code{perms} which can be used for with the \code{summary} genetic for S3 methods dispatch.
+A data frame (\code{\link{tibble}}) where each row is a permuted version of the input data. The returned data frame has the added class \code{perms} which can be used by the \code{summary} generic for S3 methods dispatch.
 }
 \description{
 A function for generating permuted datasets; where one can permute as many columns as desired. Stratified (i.e. group-based) shuffling can be achieved by specifying a column name for the \code{strata} argument. See details for a more complete description and guidance on usage.
