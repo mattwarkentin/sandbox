@@ -93,7 +93,7 @@ perms <- function(data = NULL, ..., strata = NULL,
   attr(permd, 'apparent') <- apparent
   attr(permd, 'seed') <- seed
 
-  class(permd) <- c(class(permd), 'perms')
+  class(permd) <- c('perms', class(permd))
 
   return(permd)
 }
