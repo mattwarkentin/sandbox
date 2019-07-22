@@ -54,16 +54,16 @@ perms <- function(data = NULL, ..., strata = NULL,
     permd <- data %>%
       tidyr::crossing(., id = 1:times) %>%
       dplyr::group_nest(id) %>%
-      dplyr::mutate(id = glue::glue('Permutation{stringr::str_pad(id,
-                                  max(nchar(times)), side = "right", pad = "0")}')) %>%
+      dplyr::mutate(id = glue::glue('{stringr::str_pad(id, max(nchar(times)), side = "left", pad = "0")}'),
+                    id = glue::glue('Permutation{id}')) %>%
       dplyr::mutate(data = purrr::map(data, ~recipes::bake(rec, new_data = .)))
 
   } else if (match(as.character(strata_expr), names(data))) {
     permd <- data %>%
       tidyr::crossing(., id = 1:times) %>%
       dplyr::group_nest(id) %>%
-      dplyr::mutate(id = glue::glue('Permutation{stringr::str_pad(id,
-                                  max(nchar(times)), side = "right", pad = "0")}')) %>%
+      dplyr::mutate(id = glue::glue('{stringr::str_pad(id, max(nchar(times)), side = "left", pad = "0")}'),
+                    id = glue::glue('Permutation{id}')) %>%
       mutate(data = purrr::map(data, ~strat_bake(., !!strata_quo, rec)))
 
   } else {
