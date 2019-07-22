@@ -2,7 +2,7 @@
 % Please edit documentation in R/partial-auc-spline.R
 \name{partAUC}
 \alias{partAUC}
-\title{Partial AUC}
+\title{Partial Area Under the Curve}
 \usage{
 partAUC(data = NULL, sens = NULL, spec = NULL, range = c(1, 0),
   focus = "sp", smooth = FALSE, correct = FALSE, n = 1000, ...)
@@ -10,9 +10,9 @@ partAUC(data = NULL, sens = NULL, spec = NULL, range = c(1, 0),
 \arguments{
 \item{data}{Data frame.}
 
-\item{sens}{Column name for sensitivity.}
+\item{sens}{Column name in \code{data} for sensitivity.}
 
-\item{spec}{Column name for specificity.}
+\item{spec}{Column name in \code{data} for specificity.}
 
 \item{range}{Range of sensitivity or specificity to integrate.}
 
@@ -23,17 +23,17 @@ partAUC(data = NULL, sens = NULL, spec = NULL, range = c(1, 0),
 \item{...}{Not currently used.}
 }
 \value{
-\code{Tibble} containing a column for the partial AUC, and a list-column containing the ROC data.
+Invisibly returns a \code{\link[tibble]{tibble}} containing a column for the partial AUC, and a list-column containing the ROC data. The returned \code{\link[tibble]{tibble}} inherits the \code{\link[tibble]{tibble}} classes as well as the class \code{partial_auc}. The returned object also contains attributes indicating whether the ROC was smoothed (\code{smooth_roc}), corrected (\code{corrected_auc}), range of integration (\code{range}), and focus (\code{focus}).
 }
 \description{
-Function for estimating the partial area under the ROC curve. See details for a more comprehensive description.
+Function for estimating the partial area under the ROC curve. ROC curve may be optionally smoothed using binormal smoothing before computing partial AUC. See \code{Details} for a more comprehensive description.
 }
 \details{
-Since the x-axis of the ROC curve is mapped as 1 - Specificity, if the \code{focus} is "sp", the range should be provided in the left-to-right orientation for specificity. In other words, if you want to integrate the entire ROC in terms of specificity, the range would be c(1,0); this translates to integrating the false-positive rate from c(0,1).
+Since the x-axis of the ROC curve is mapped as 1 - Specificity, if the \code{focus} is "sp", the \code{range} should be provided in the left-to-right orientation for specificity. In other words, if you want to integrate the entire ROC in terms of specificity, the \code{range} would be c(1,0); this translates to integrating the false-positive rate from c(0,1).
 
-If you only want to integrate the a section of the ROC curve (e.g. FPR from 0 to 0.2), you would specify the range in terms of specificity as c(1, 0.8).
+If you only want to integrate the a section of the ROC curve (e.g. FPR from 0 to 0.2), you would specify the \code{range} in terms of specificity as c(1, 0.8).
 
-When the focus is "se" for sensitivity, the range should be specified from the bottom-to-top (standard y-axis) orientation. In other words, to integrate the whole ROC curve, if the focus is "se" the range should be specificed as c(0,1). To integrate only a section of the ROC, for example, when sensitivity is between 0 and 0.5, you would specify the focus as "se" and the range as c(0,0.5).
+When the \code{focus} is "se" for sensitivity, the \code{range} should be specified from the top-to-bottom orientation. In other words, to integrate the whole ROC curve, if the \code{focus} is "se" the \code{range} should be specificed as c(1,0). To integrate only a section of the ROC, for example, when sensitivity is between 0 and 0.5, you would specify the \code{focus} as "se" and the \code{range} as c(0.5,0).
 }
 \examples{
 dd <- tibble::tibble(sens = runif(100), spec = runif(100))
