@@ -42,7 +42,7 @@ partAUC <- function(data = NULL, sens = NULL, spec = NULL,
 
 
   data <- data %>%
-    mutate(sens = {{ sens }},
+    transmute(sens = {{ sens }},
            spec = {{ spec }})
 
   if (smooth) {
@@ -50,7 +50,7 @@ partAUC <- function(data = NULL, sens = NULL, spec = NULL,
 
     data2 <- data2[apply(data2, 1, function(x) all(is.finite(x))), ]
 
-    lin.mod <- lm(sp ~ se, data2)
+    lin.mod <- lm(spec ~ sens, data2)
 
     se <- qnorm(seq(0, 1, 1 / (n - 1)))
     sp <- predict(lin.mod, newdata = data.frame(se))
