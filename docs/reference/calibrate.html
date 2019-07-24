@@ -34,7 +34,7 @@
 
 <meta property="og:description" content="This function will allow you to compute calibration metrics:
    - predicted and observed probabilities
-   - predicted and observed events of interest" />
+   - predicted and observed event counts" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -117,57 +117,71 @@
     
     <p>This function will allow you to compute calibration metrics:
    - predicted and observed probabilities
-   - predicted and observed events of interest</p>
+   - predicted and observed event counts</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>calibrate</span>(<span class='no'>data</span>, <span class='no'>horizon</span>, <span class='kw'>groups</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>cause</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='no'>model</span>)</pre>
+    <pre class="usage"><span class='fu'>calibrate</span>(<span class='no'>data</span>, <span class='no'>horizon</span>, <span class='no'>ng</span>, <span class='no'>predvar</span>, <span class='no'>time</span>, <span class='no'>cens</span>, <span class='no'>cause</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>data</th>
-      <td><p>Dataframe to use for absolute risk predictions</p></td>
+      <td><p>Dataframe to use for absolute-risk predictions</p></td>
     </tr>
     <tr>
       <th>horizon</th>
       <td><p>Time horizon for predictions</p></td>
     </tr>
     <tr>
-      <th>groups</th>
+      <th>ng</th>
       <td><p>Number of deciles based on model-predicted risks (default is 10)</p></td>
     </tr>
     <tr>
-      <th>cause</th>
-      <td><p>Integer value for the event-of-interest to calibrate predictions</p></td>
+      <th>predvar</th>
+      <td><p>Unquoted name of predicted risks in data frame</p></td>
     </tr>
     <tr>
-      <th>model</th>
-      <td><p>The returened model object from <code><a href='https://www.rdocumentation.org/packages/riskRegression/topics/riskRegression'>riskRegression</a></code></p></td>
+      <th>time</th>
+      <td><p>Time</p></td>
+    </tr>
+    <tr>
+      <th>cens</th>
+      <td><p>Censor status</p></td>
+    </tr>
+    <tr>
+      <th>cause</th>
+      <td><p>Integer value for the event-of-interest to calibrate prediction</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A list containing three elements. The first element returns a string
-   detailing the time horizon for calibration. The second element is a chi-sq
-   test statistic and p-value for the Hosmer-Lemeshow test (with DF=groups-1).
-   The third element is a <code>tibble</code> containining the decile index
-   along with the predicted and observed cumulative incidences, and the
-   predicted and observed events across the <code>n</code> risk quantiles.</p>
+    <p>A <code>tibble</code> containining the decile index
+   along with the predicted and observed cumulative incidences, by decile, and the predicted and observed events across the <code>n</code> risk quantiles. Risk and event count differences by decile are also included.</p>
+    
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>These functions uses non-standard evaluation (tidy_eval). Thus, you can pass <code>predvar</code>, <code>time</code>, and <code>cens</code> as unquoted.</p>
+<p><code>calibrate</code> uses <code><a href='https://dplyr.tidyverse.org/reference/ranking.html'>ntile</a></code> to place observations into groups based on predicted risks. <code>calibrate2</code> uses <code><a href='https://www.rdocumentation.org/packages/stats/topics/quantile'>quantile</a></code> and <code><a href='https://www.rdocumentation.org/packages/base/topics/cut'>cut</a></code>, instead. This produces calibration metrics equivalent to <a href='http://individual.utoronto.ca/osaarela/validstats-manual.pdf'>validstats::cical</a>. Lastly, <code>calibrate3</code> uses the same discretization as <code>calibrate</code> but uses <code><a href='https://www.rdocumentation.org/packages/cmprsk/topics/cuminc'>cuminc</a></code> instead of <a href='http://individual.utoronto.ca/osaarela/validstats-manual.pdf'>validstats::cif</a> to compute the cumulative incidence function.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>riskRegression</span>)</div><div class='output co'>#&gt; <span class='message'>Loading required package: data.table</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: ggplot2</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: prodlim</span></div><div class='output co'>#&gt; <span class='message'>riskRegression version 2018.10.03</span></div><div class='input'>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>riskRegression</span>)
+
 <span class='co'># Simulate Data</span>
 <span class='no'>sim.data</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/riskRegression/topics/sampleData'>sampleData</a></span>(<span class='fl'>100</span>, <span class='kw'>outcome</span> <span class='kw'>=</span> <span class='st'>'competing.risks'</span>)
 
 <span class='co'># Fit Fine-Gray Model</span>
-<span class='no'>fgr.mod</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/riskRegression/topics/FGR'>FGR</a></span>(<span class='kw'>formula</span> <span class='kw'>=</span> <span class='fu'>Hist</span>(<span class='no'>time</span>, <span class='no'>event</span>) ~ <span class='no'>X7</span> + <span class='no'>X6</span> + <span class='no'>X8</span> + <span class='no'>X9</span>,
+<span class='no'>fgr.mod</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/riskRegression/topics/FGR'>FGR</a></span>(<span class='kw'>formula</span> <span class='kw'>=</span> <span class='fu'>Hist</span>(<span class='no'>time</span>, <span class='no'>event</span>) ~ <span class='no'>X6</span> + <span class='no'>X7</span> + <span class='no'>X8</span> + <span class='no'>X9</span>,
                <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>sim.data</span>, <span class='kw'>cause</span> <span class='kw'>=</span> <span class='fl'>1</span>)
 
-<span class='fu'>calibrate</span>(<span class='no'>sim.data</span>, <span class='fl'>2</span>, <span class='fl'>10</span>, <span class='fl'>1</span>, <span class='no'>fgr.mod</span>)</div><div class='output co'>#&gt; <span class='error'>Error: Column `pred` must be a 1d atomic vector or a list</span></div><div class='input'>
+<span class='co'># Make predictions</span>
+<span class='no'>horizon</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/median'>median</a></span>(<span class='no'>sim.data</span>$<span class='no'>time</span>)
+<span class='no'>sim.data</span>$<span class='no'>preds</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/riskRegression/topics/predictRisk'>predictRisk</a></span>(<span class='no'>fgr.mod</span>, <span class='no'>sim.data</span>, <span class='kw'>cause</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>time</span> <span class='kw'>=</span> <span class='no'>horizon</span>)
+
+<span class='fu'>calibrate</span>(<span class='no'>sim.data</span>, <span class='no'>horizon</span>, <span class='fl'>10</span>, <span class='no'>preds</span>, <span class='no'>time</span>, <span class='no'>events</span>, <span class='fl'>1</span>)</div><div class='output co'>#&gt; <span class='error'>Error in ~events: object 'events' not found</span></div><div class='input'><span class='fu'>calibrate2</span>(<span class='no'>sim.data</span>, <span class='no'>horizon</span>, <span class='fl'>10</span>, <span class='no'>preds</span>, <span class='no'>time</span>, <span class='no'>events</span>, <span class='fl'>1</span>)</div><div class='output co'>#&gt; <span class='error'>Error in calibrate2(sim.data, horizon, 10, preds, time, events, 1): could not find function "calibrate2"</span></div><div class='input'><span class='fu'>calibrate3</span>(<span class='no'>sim.data</span>, <span class='no'>horizon</span>, <span class='fl'>10</span>, <span class='no'>preds</span>, <span class='no'>time</span>, <span class='no'>events</span>, <span class='fl'>1</span>)</div><div class='output co'>#&gt; <span class='error'>Error in calibrate3(sim.data, horizon, 10, preds, time, events, 1): could not find function "calibrate3"</span></div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -176,6 +190,8 @@
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
+
+      <li><a href="#details">Details</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>
