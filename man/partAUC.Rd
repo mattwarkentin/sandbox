@@ -5,7 +5,8 @@
 \title{Partial Area Under the Curve}
 \usage{
 partAUC(data = NULL, sens = NULL, spec = NULL, range = c(1, 0),
-  focus = "sp", smooth = FALSE, correct = FALSE, n = 1000, ...)
+  focus = "sp", smooth = FALSE, correct = FALSE, n = 10000,
+  plot = FALSE, opts = list(), ...)
 }
 \arguments{
 \item{data}{Data frame.}
@@ -19,6 +20,10 @@ partAUC(data = NULL, sens = NULL, spec = NULL, range = c(1, 0),
 \item{focus}{String describing whether the integration range is for sensitivity or specificity.}
 
 \item{n}{Number of equally-spaced points for smooth curve calculations.}
+
+\item{plot}{Logical. Should a partial AUC plot be returned?}
+
+\item{opts}{List of options passed to plotting function if \code{plot = TRUE}. See details.}
 
 \item{...}{Not currently used.}
 }
@@ -34,6 +39,14 @@ Since the x-axis of the ROC curve is mapped as 1 - Specificity, if the \code{foc
 If you only want to integrate the a section of the ROC curve (e.g. FPR from 0 to 0.2), you would specify the \code{range} in terms of specificity as c(1, 0.8).
 
 When the \code{focus} is "se" for sensitivity, the \code{range} should be specified from the top-to-bottom orientation. In other words, to integrate the whole ROC curve, if the \code{focus} is "se" the \code{range} should be specificed as c(1,0). To integrate only a section of the ROC, for example, when sensitivity is between 0 and 0.5, you would specify the \code{focus} as "se" and the \code{range} as c(0.5,0).
+
+The list of options (\code{opts}) that can be passed to the plotting function are (passed as a list):
+\itemize{
+  \item \code{pcol} Colour of the partial area.
+  \item \code{mcol} Colour for the maximal partial area.
+  \item \code{fcol} Colour for the full AUC.
+  \item \code{percent} Logical. Should axes be labeled as percentages?
+}
 }
 \examples{
 dd <- tibble::tibble(sens = runif(100), spec = runif(100))

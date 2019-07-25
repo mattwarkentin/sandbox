@@ -8,6 +8,8 @@
 #' @param range Range of sensitivity or specificity to integrate.
 #' @param focus String describing whether the integration range is for sensitivity or specificity.
 #' @param n Number of equally-spaced points for smooth curve calculations.
+#' @param plot Logical. Should a partial AUC plot be returned?
+#' @param opts List of options passed to plotting function if \code{plot = TRUE}. See details.
 #' @param ... Not currently used.
 #'
 #' @return Invisibly returns a \code{\link[tibble]{tibble}} containing a column for the partial AUC, and a list-column containing the ROC data. The returned \code{\link[tibble]{tibble}} inherits the \code{\link[tibble]{tibble}} classes as well as the class \code{partial_auc}. The returned object also contains attributes indicating whether the ROC was smoothed (\code{smooth_roc}), corrected (\code{corrected_auc}), range of integration (\code{range}), and focus (\code{focus}).
@@ -17,6 +19,14 @@
 #' If you only want to integrate the a section of the ROC curve (e.g. FPR from 0 to 0.2), you would specify the \code{range} in terms of specificity as c(1, 0.8).
 #'
 #' When the \code{focus} is "se" for sensitivity, the \code{range} should be specified from the top-to-bottom orientation. In other words, to integrate the whole ROC curve, if the \code{focus} is "se" the \code{range} should be specificed as c(1,0). To integrate only a section of the ROC, for example, when sensitivity is between 0 and 0.5, you would specify the \code{focus} as "se" and the \code{range} as c(0.5,0).
+#'
+#' The list of options (\code{opts}) that can be passed to the plotting function are (passed as a list):
+#' \itemize{
+#'   \item \code{pcol} Colour of the partial area.
+#'   \item \code{mcol} Colour for the maximal partial area.
+#'   \item \code{fcol} Colour for the full AUC.
+#'   \item \code{percent} Logical. Should axes be labeled as percentages?
+#' }
 #'
 #' @examples
 #' dd <- tibble::tibble(sens = runif(100), spec = runif(100))
@@ -28,7 +38,8 @@
 
 partAUC <- function(data = NULL, sens = NULL, spec = NULL,
                     range = c(1, 0), focus = 'sp', smooth = FALSE,
-                    correct = FALSE, n = 1000, ...) {
+                    correct = FALSE, n = 10000, plot = FALSE, opts = list(),
+                    ...) {
 
   assertthat::assert_that(any(class(data) %in% c('tbl', 'data.frame')))
   assertthat::assert_that(focus %in% c('se', 'sp'))
@@ -81,8 +92,15 @@ partAUC <- function(data = NULL, sens = NULL, spec = NULL,
 
   cat(glue::glue('{smoothed}Partial AUC ({focus} {range[1]}-{range[2]}): {round(p_auc, 4)} {corrected}\n'))
 
-
   x <- dplyr::bind_cols(auc = p_auc, tidyr::nest(data, .key = 'roc'))
+
+  if (plot) {
+    p <- plot_partial_auc(data = data, sens = sens, spec = spec,
+                          range = range, spline_fun = spline_fun,
+                          !!!list(opts = opts))
+    x <- x %>%
+      mutate(plot = list(p))
+  }
 
   attr(x, "smooth_roc") <- smooth
   attr(x, "corrected_auc") <- correct
@@ -91,4 +109,43 @@ partAUC <- function(data = NULL, sens = NULL, spec = NULL,
   class(x) <- c("partial_auc", class(x))
 
   invisible(x)
+}
+
+plot_partial_auc <- function(data, sens, spec, range,
+                             pcol = 'red', mcol = 'black',
+                             fcol = 'green', percent = FALSE,
+                             spline_fun = NULL, opts) {
+
+  red_part <- tibble(fpr = seq(1-range[1], 1-range[2], length = 1000),
+                     sens = spline_fun(fpr))
+
+  p <- ggplot() +
+
+    annotate("rect", xmin=1-range[1], xmax=1-range[2],
+             ymin=0, ymax=1,
+             alpha=0.1, fill="black") +
+
+    geom_ribbon(data = data, aes(x = 1 - {{ spec }},
+                                 ymin = 0, ymax = {{ sens }}),
+                alpha = 0.1, fill = 'green') +
+
+    geom_ribbon(data = red_part, aes(x = fpr,
+                                     ymin = 0, ymax = {{ sens }}),
+                alpha = 0.5, fill = 'red') +
+
+    geom_abline(slope = 1, intercept = 0, lty = 2) +
+
+    geom_path(data = data, aes(1 - {{ spec }}, {{ sens }}), size = 1) +
+
+    labs(x = '1 - Specificity',
+         y = 'Sensitivity') +
+
+    theme_light()
+
+  if (percent) {
+    p <- p +
+      scale_x_continuous(labels = scales::percent_format()) +
+      scale_y_continuous(labels = scales::percent_format())
+  }
+  p
 }
