@@ -89,7 +89,7 @@ plink_scoring <- function(bfile, scores, sum = TRUE,
                                  progress = TRUE, ...)
   } else {
     profile <- purrr::map_dfr(num_profile_files,
-                              ~readr::read_delim('./plink.profile',
+                              ~readr::read_delim(.,
                                                  delim = ' ',
                                                  col_names = TRUE,
                                                  trim_ws = TRUE,
