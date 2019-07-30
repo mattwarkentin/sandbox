@@ -1,6 +1,12 @@
 Sandbox
 ================
 
+<!-- badges: start -->
+
+[![Lifecycle:
+experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
+<!-- badges: end -->
+
 # Information
 
 Author: Matthew T. Warketin
@@ -17,5 +23,17 @@ drastically without notice.
 
 **Use functions at your own risk\!**
 
-Please feel free to contibrute code via a pull request, or post an issue
-if you would like something added or changed.
+Please feel free to contribute code via a [pull
+request](https://github.com/mattwarkentin/sandbox/pulls), or post an
+[issue](https://github.com/mattwarkentin/sandbox/issues) if you would
+like to request a feature or if you need help troubleshooting an issue.
+
+## Installation
+
+You can install the development version from
+[GitHub](https://github.com/) with:
+
+``` r
+# install.packages("devtools")
+devtools::install_github("mattwarkentin/sandbox")
+```
