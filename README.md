@@ -6,7 +6,7 @@ Sandbox
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 [![Travis build
-status](https://travis-ci.org/mattwarkentin/sandbox.svg?branch=master)](https://travis-ci.org/mattwarkentin/sandbox)
+status](https://travis-ci.com/mattwarkentin/sandbox.svg?branch=master)](https://travis-ci.com/mattwarkentin/sandbox)
 <!-- badges: end -->
 
 # Information
