@@ -9,6 +9,8 @@ experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](h
 status](https://travis-ci.com/mattwarkentin/sandbox.svg?branch=master)](https://travis-ci.com/mattwarkentin/sandbox)
 [![AppVeyor build
 status](https://ci.appveyor.com/api/projects/status/github/mattwarkentin/sandbox?branch=master&svg=true)](https://ci.appveyor.com/project/mattwarkentin/sandbox)
+[![Codecov test
+coverage](https://codecov.io/gh/warkentinmatt/sandbox/branch/master/graph/badge.svg)](https://codecov.io/gh/warkentinmatt/sandbox?branch=master)
 <!-- badges: end -->
 
 # Information
