@@ -2,6 +2,7 @@
 
 S3method(summary,perms)
 export("%==%")
+export("%>%")
 export(auc_train_test)
 export(calibrate3)
 export(clear)
@@ -41,3 +42,4 @@ export(tidy_robpois)
 export(top_left)
 export(youden)
 export(z_to_p)
+importFrom(magrittr,"%>%")

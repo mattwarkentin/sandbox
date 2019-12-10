@@ -20,7 +20,8 @@ Imports:
     tidyr,
     tibble,
     ggplot2,
-    recipes
+    recipes,
+    magrittr
 Suggests: 
     knitr,
     rmarkdown,
