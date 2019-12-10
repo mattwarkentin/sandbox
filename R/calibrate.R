@@ -149,7 +149,7 @@ calibrate3 <- function(data, horizon, ng, predvar, time, cens, cause) {
 
   data <- data %>%
     dplyr::mutate(time_t1c = dplyr::if_else(!!time > horizon, horizon, !!time),
-           fail_t1c = if_else(!!time > horizon, 0, !!cens),
+           fail_t1c = dplyr::if_else(!!time > horizon, 0, !!cens),
            groups = dplyr::ntile(!!predvar, ng))
 
   exp <- data %>%

@@ -22,6 +22,14 @@ This package contains a mixed-bag of functions. Function topics include:
 \href{https://github.com/warkentinmatt/sandbox}{warkentinmatt/sandbox}
 }
 
+\seealso{
+Useful links:
+\itemize{
+  \item \url{http://github.com/mattwarkentin/sandbox}
+  \item Report bugs at \url{http://github.com/mattwarkentin/sandbox/issues}
+}
+
+}
 \author{
 \itemize{
 

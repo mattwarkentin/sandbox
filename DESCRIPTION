@@ -27,3 +27,5 @@ Suggests:
     rmarkdown,
     covr
 VignetteBuilder: knitr
+URL: http://github.com/mattwarkentin/sandbox
+BugReports: http://github.com/mattwarkentin/sandbox/issues
