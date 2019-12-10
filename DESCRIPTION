@@ -14,11 +14,13 @@ Imports:
     riskRegression,
     cmprsk,
     glue,
-    oro.dicom,
     fs,
     assertthat,
     dplyr,
-    tibble
+    tidyr,
+    tibble,
+    ggplot2,
+    recipes
 Suggests: 
     knitr,
     rmarkdown,

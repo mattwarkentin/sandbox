@@ -19,7 +19,7 @@ gsu <- function(.data, ..., .slices = 1) {
 
   .data %>%
     dplyr::group_by(!!!...) %>%
-    slice(.slices) %>%
-    ungroup()
+    dplyr::slice(.slices) %>%
+    dplyr::ungroup()
 
 }

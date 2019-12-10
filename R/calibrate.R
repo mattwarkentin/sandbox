@@ -34,113 +34,111 @@
 #' horizon <- median(sim.data$time)
 #' sim.data$preds <- predictRisk(fgr.mod, sim.data, cause = 1, time = horizon)
 #'
-#' calibrate(sim.data, horizon, 10, preds, time, events, 1)
-#' calibrate2(sim.data, horizon, 10, preds, time, events, 1)
+#' #calibrate(sim.data, horizon, 10, preds, time, events, 1)
+#' #calibrate2(sim.data, horizon, 10, preds, time, events, 1)
 #' calibrate3(sim.data, horizon, 10, preds, time, events, 1)
-#'
-#' @import dplyr
 #'
 #' @export
 #'
 
-calibrate <- function(data, horizon, ng, predvar, time, cens, cause) {
-  time <- dplyr::enquo(time)
-  cens <- dplyr::enquo(cens)
-  predvar <- dplyr::enquo(predvar)
-
-  data <- data %>%
-    dplyr::mutate(time_t1c = dplyr::if_else(!!time > horizon, horizon, !!time),
-           fail_t1c = dplyr::if_else(!!time > horizon, 0, !!cens),
-           groups = dplyr::ntile(!!predvar, ng))
-
-  exp <- data %>%
-    dplyr::group_by(groups) %>%
-    dplyr::summarise(tot = dplyr::n(),
-              exp_risk = mean(!!predvar),
-              exp_events = exp_risk * tot)
-
-  obs_risk <- obs_events <- vector('double', ng)
-
-  # Inner for loop
-  for (i in 1:ng){
-    dd <- data %>%
-      dplyr::filter(groups==i)
-
-    cif <- validstats::cif(timestop = dd$time_t1c,
-                           censvar = dd$fail_t1c,
-                           casetype = cause)
-
-    dd2 <- dd %>%
-      dplyr::filter(fail_t1c==cause, time_t1c<horizon) %>%
-      dplyr::summarise(timeval = max(time_t1c)) %>%
-      dplyr::pull(timeval)
-
-    obs_events[i] <- nrow(dd) * cif$ci[which(cif$times==dd2)]
-
-    obs_risk[i] <- cif$ci[which(cif$times==dd2)]
-  }
-
-  ret <- exp %>%
-    dplyr::mutate(obs_risk = obs_risk,
-           obs_events = obs_events,
-           event_diff = obs_events - exp_events,
-           risk_diff = obs_risk - exp_risk)
-
-  return(ret)
-
-}
+# calibrate <- function(data, horizon, ng, predvar, time, cens, cause) {
+#   time <- dplyr::enquo(time)
+#   cens <- dplyr::enquo(cens)
+#   predvar <- dplyr::enquo(predvar)
+#
+#   data <- data %>%
+#     dplyr::mutate(time_t1c = dplyr::if_else(!!time > horizon, horizon, !!time),
+#            fail_t1c = dplyr::if_else(!!time > horizon, 0, !!cens),
+#            groups = dplyr::ntile(!!predvar, ng))
+#
+#   exp <- data %>%
+#     dplyr::group_by(groups) %>%
+#     dplyr::summarise(tot = dplyr::n(),
+#               exp_risk = mean(!!predvar),
+#               exp_events = exp_risk * tot)
+#
+#   obs_risk <- obs_events <- vector('double', ng)
+#
+#   # Inner for loop
+#   for (i in 1:ng){
+#     dd <- data %>%
+#       dplyr::filter(groups==i)
+#
+#     cif <- validstats::cif(timestop = dd$time_t1c,
+#                            censvar = dd$fail_t1c,
+#                            casetype = cause)
+#
+#     dd2 <- dd %>%
+#       dplyr::filter(fail_t1c==cause, time_t1c<horizon) %>%
+#       dplyr::summarise(timeval = max(time_t1c)) %>%
+#       dplyr::pull(timeval)
+#
+#     obs_events[i] <- nrow(dd) * cif$ci[which(cif$times==dd2)]
+#
+#     obs_risk[i] <- cif$ci[which(cif$times==dd2)]
+#   }
+#
+#   ret <- exp %>%
+#     dplyr::mutate(obs_risk = obs_risk,
+#            obs_events = obs_events,
+#            event_diff = obs_events - exp_events,
+#            risk_diff = obs_risk - exp_risk)
+#
+#   return(ret)
+#
+# }
 
 # This is the same as Olli's function validstats::cical
-calibrate2 <- function(data, horizon, ng, predvar, time, cens, cause) {
-  time <- dplyr::enquo(time)
-  cens <- dplyr::enquo(cens)
-  predvar <- dplyr::enquo(predvar)
-
-  data <- data %>%
-    dplyr::mutate(time_t1c = dplyr::if_else(!!time > horizon, horizon, !!time),
-           fail_t1c = dplyr::if_else(!!time > horizon, 0, !!cens),
-           groups = cut(!!predvar, quantile(!!predvar,
-                                            probs = seq(0, 1, length = ng + 1),
-                                            na.rm = TRUE,
-                                            type = 7), include.lowest = TRUE,
-                        right = FALSE, labels = c(1:ng)))
-
-  exp <- data %>%
-    dplyr::group_by(groups) %>%
-    dplyr::summarise(tot = dplyr::n(),
-              exp_risk = mean(!!predvar),
-              exp_events = exp_risk * tot)
-
-  obs_risk <- obs_events <- vector('double', ng)
-
-  # Inner for loop
-  for (i in 1:ng){
-    dd <- data %>%
-      dplyr::filter(groups==i)
-
-    cif <- with(dd, cif(timestop = time_t1c,
-                        censvar = fail_t1c,
-                        casetype = cause))
-
-    dd2 <- dd %>%
-      dplyr::filter(fail_t1c==cause, time_t1c<horizon) %>%
-      dplyr::summarise(timeval = max(time_t1c)) %>%
-      dplyr::pull(timeval)
-
-    obs_events[i] <- nrow(dd) * cif$ci[which(cif$times==dd2)]
-
-    obs_risk[i] <- cif$ci[which(cif$times==dd2)]
-  }
-
-  ret <- exp %>%
-    dplyr::mutate(obs_risk = obs_risk,
-           obs_events = obs_events,
-           event_diff = obs_events - exp_events,
-           risk_diff = obs_risk - exp_risk)
-
-  return(ret)
-
-}
+# calibrate2 <- function(data, horizon, ng, predvar, time, cens, cause) {
+#   time <- dplyr::enquo(time)
+#   cens <- dplyr::enquo(cens)
+#   predvar <- dplyr::enquo(predvar)
+#
+#   data <- data %>%
+#     dplyr::mutate(time_t1c = dplyr::if_else(!!time > horizon, horizon, !!time),
+#            fail_t1c = dplyr::if_else(!!time > horizon, 0, !!cens),
+#            groups = cut(!!predvar, quantile(!!predvar,
+#                                             probs = seq(0, 1, length = ng + 1),
+#                                             na.rm = TRUE,
+#                                             type = 7), include.lowest = TRUE,
+#                         right = FALSE, labels = c(1:ng)))
+#
+#   exp <- data %>%
+#     dplyr::group_by(groups) %>%
+#     dplyr::summarise(tot = dplyr::n(),
+#               exp_risk = mean(!!predvar),
+#               exp_events = exp_risk * tot)
+#
+#   obs_risk <- obs_events <- vector('double', ng)
+#
+#   # Inner for loop
+#   for (i in 1:ng){
+#     dd <- data %>%
+#       dplyr::filter(groups==i)
+#
+#     cif <- with(dd, cif(timestop = time_t1c,
+#                         censvar = fail_t1c,
+#                         casetype = cause))
+#
+#     dd2 <- dd %>%
+#       dplyr::filter(fail_t1c==cause, time_t1c<horizon) %>%
+#       dplyr::summarise(timeval = max(time_t1c)) %>%
+#       dplyr::pull(timeval)
+#
+#     obs_events[i] <- nrow(dd) * cif$ci[which(cif$times==dd2)]
+#
+#     obs_risk[i] <- cif$ci[which(cif$times==dd2)]
+#   }
+#
+#   ret <- exp %>%
+#     dplyr::mutate(obs_risk = obs_risk,
+#            obs_events = obs_events,
+#            event_diff = obs_events - exp_events,
+#            risk_diff = obs_risk - exp_risk)
+#
+#   return(ret)
+#
+# }
 
 # Same as calibrate() but uses cmprsk::cuminc instead of
 # validstats::cif. Thus isn't forced to use 32-bit R, like validstats
