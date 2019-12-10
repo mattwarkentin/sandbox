@@ -13,8 +13,9 @@ Returns a message with the set-seed value.
 User-friendly function for interactively setting the seed for random-number generation (RNG).
 }
 \examples{
-
+\dontrun{
 set_seed()
 1234
+}
 
 }

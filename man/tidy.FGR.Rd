@@ -4,7 +4,14 @@
 \alias{tidy.FGR}
 \title{Broom tidiers for Fine and Gray models.}
 \usage{
-tidy.FGR(x, conf.int = FALSE, conf.level = 0.95, exponentiate = FALSE)
+tidy.FGR(
+  x,
+  conf.int = FALSE,
+  conf.level = 0.95,
+  exponentiate = FALSE,
+  quick,
+  ...
+)
 }
 \arguments{
 \item{x}{A \code{FGR} object created by \code{\link[riskRegression]{FGR}}}
@@ -39,13 +46,14 @@ Tidy summarizes information about the components of a model. A model component m
 If you have missing values in your model data, you may need to refit the model with na.action = na.exclude.
 }
 \examples{
+\dontrun{
 library(riskRegression)
 sim.data <- sampleData(50, outcome = 'competing.risks')
 fgr.model <- FGR(Hist(time, event) ~ X10, data = sim.data, cause = 1)
 #tidy(fgr.model)
 #glance(fgr.model)
 #augment(fgr.model)
-
+}
 
 }
 \seealso{

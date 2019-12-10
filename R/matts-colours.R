@@ -68,11 +68,13 @@ matts_pals <- function(palette = 'rainbow', reverse = FALSE, ...) {
 }
 
 #' @export
+#' @rdname matt
 matts_colours <- c(`blue` = '#BAE1FF',
                    `harvard` = '#C90016',
                    `leafs` = '#00205B')
 
 #' @export
+#' @rdname matt
 matts_palettes <- list(
   `rainbow` = c('#FFB3BA', '#FFDFBA', '#FFFFBA', '#BAFFC9', '#BAE1FF'),
   `bootstrap` = c('#D9534F', '#F9F9F9', '#5BC0DE', '#5CB85C', '#428BCA'),

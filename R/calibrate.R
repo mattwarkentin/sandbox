@@ -20,6 +20,7 @@
 #'    along with the predicted and observed cumulative incidences, by decile, and the predicted and observed events across the \code{n} risk quantiles. Risk and event count differences by decile are also included.
 #'
 #' @examples
+#' \dontrun{
 #' library(riskRegression)
 #' library(prodlim)
 #'
@@ -34,10 +35,10 @@
 #' horizon <- median(sim.data$time)
 #' sim.data$preds <- predictRisk(fgr.mod, sim.data, cause = 1, time = horizon)
 #'
-#' #calibrate(sim.data, horizon, 10, preds, time, events, 1)
-#' #calibrate2(sim.data, horizon, 10, preds, time, events, 1)
-#' calibrate3(sim.data, horizon, 10, preds, time, events, 1)
-#'
+#' calibrate(sim.data, horizon, 10, preds, time, event, 1)
+#' calibrate2(sim.data, horizon, 10, preds, time, event, 1)
+#' calibrate3(sim.data, horizon, 10, preds, time, event, 1)
+#' }
 #' @export
 #'
 

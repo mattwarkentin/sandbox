@@ -16,8 +16,8 @@
 #'   deselect(Species)
 #'
 deselect <- function(.data, ...){
-  vars <- enquos(...)
+  vars <- dplyr::enquos(...)
 
   .data %>%
-    select(-(!!!vars))
+   dplyr::select(-(!!!vars))
 }

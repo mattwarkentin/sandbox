@@ -11,6 +11,7 @@
 #' @param digits Number of significant digits to print (pad with zeroes if digits < round)
 #' @param total Logical. Should a total column be added? (Default is FALSE) This argument only matters when a grouping variable is provided.
 #' @param na.rm Logical. Should missing data be remove before computing summary statisitcs? (Default is FALSE)
+#' @param na_level String to display for missing levels.
 #'
 #' @details For numeric variables passed to \code{table1_numeric}, the returned summary statistics are means (\code{\link[base]{mean}}) and standard deviations (\code{\link[stats]{sd}}). For categorical variables (i.e. factors) passed to \code{table1_categorical}, the returned summary statistics are counts (\code{\link[base]{sum}}) and percentages (\code{\link[base]{mean}}) of indicator variables for each level in a factor variable.
 #'

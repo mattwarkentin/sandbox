@@ -28,6 +28,7 @@
 #' Other \code{FGR} tidiers: \code{glance.FGR}, \code{augment.FGR}
 #'
 #' @examples
+#' \dontrun{
 #' library(riskRegression)
 #' library(prodlim)
 #' sim.data <- sampleData(50, outcome = 'competing.risks')
@@ -35,8 +36,10 @@
 #' #tidy(fgr.model)
 #' #glance(fgr.model)
 #' #augment(fgr.model)
+#' }
 #'
 
-augment.FGR <- function() {
+augment.FGR <- function(x, conf.int, conf.level, exponentiate,
+                        quick, ...) {
   NULL
 }

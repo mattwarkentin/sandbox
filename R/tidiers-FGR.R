@@ -28,18 +28,19 @@
 #' Other \code{FGR} tidiers: \code{glance.FGR}, \code{augment.FGR}
 #'
 #' @examples
+#' \dontrun{
 #' library(riskRegression)
 #' sim.data <- sampleData(50, outcome = 'competing.risks')
 #' fgr.model <- FGR(Hist(time, event) ~ X10, data = sim.data, cause = 1)
 #' #tidy(fgr.model)
 #' #glance(fgr.model)
 #' #augment(fgr.model)
-#'
+#' }
 #'
 
 tidy.FGR <- function(x, conf.int = FALSE,
                      conf.level = 0.95,
-                     exponentiate = FALSE) {
+                     exponentiate = FALSE, quick, ...) {
   coefs <- coef_FGR(x)
   var <- vcov_FGR(x)
   summ <- summary_FGR(x, conf.level)

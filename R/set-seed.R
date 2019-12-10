@@ -5,9 +5,10 @@
 #' @return Returns a message with the set-seed value.
 #'
 #' @examples
-#'
+#' \dontrun{
 #' set_seed()
 #' 1234
+#' }
 #'
 #' @export
 

@@ -9,7 +9,7 @@
 #' @param apparent A \code{logical}. Should a copy of the input \code{data} be returned?
 #' @param seed A numeric value used to set the RNG seed for reproducible permutations.
 #'
-#' @details This function was motivated by the \code{\link{rsample}} package which allows straightforward implementation of several common resampling methods (e.g. boostrap, K-fold crossvalidation). While the internal mechanisms of this function are quite different, the goal is to provide a function that works like rsample for permuted data. This function works well with the pipe. See \code{\link{magrittr}} for more details.
+#' @details This function was motivated by the \code{rsample} package which allows straightforward implementation of several common resampling methods (e.g. boostrap, K-fold crossvalidation). While the internal mechanisms of this function are quite different, the goal is to provide a function that works like rsample for permuted data. This function works well with the pipe. See \code{\link{magrittr}} for more details.
 #'
 #' After using \code{perms}, one can compute permutation-based P-values or other statistics using any function, including custom functions, in a concise manner. The syntax and usage of this function is motivated by the \code{tidy eval} principles. Thus, you specify both the names of the columns to permute and the stratitfying variable as bare column names, not quoted names. The default number of permutations is aligned with the default number of bootstraps for \code{rsample::bootstraps}.
 #'
@@ -109,7 +109,7 @@ strat_bake <- function(data, strata, recipe){
 }
 
 #' @export
-summary.perms <- function(obj){
+summary.perms <- function(object, ...){
   nperms <- attr(obj, 'nperms')
   strata_var <- attr(obj, 'strat_var')
   perm_cols <- attr(obj, 'perm_cols')

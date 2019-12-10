@@ -17,7 +17,7 @@ pca(data, center = TRUE, scale = TRUE)
 Tibble projected on the new PCA space.
 }
 \description{
-
+Tidy principal component analysis.
 }
 \details{
 Perform principal component anlaysis on a numeric data frame.

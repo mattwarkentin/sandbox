@@ -36,6 +36,7 @@ These functions use non-standard evaluation (tidy_eval). Thus, you can pass \cod
 \code{calibrate} uses \code{\link[dplyr]{ntile}} to place observations into groups based on predicted risks. \code{calibrate2} uses \code{\link[stats]{quantile}} and \code{\link[base]{cut}}, instead. This produces calibration metrics equivalent to \href{http://individual.utoronto.ca/osaarela/validstats-manual.pdf}{validstats::cical}. Lastly, \code{calibrate3} uses the same discretization as \code{calibrate} but uses \code{\link[cmprsk]{cuminc}} instead of \href{http://individual.utoronto.ca/osaarela/validstats-manual.pdf}{validstats::cif} to compute the cumulative incidence function.
 }
 \examples{
+\dontrun{
 library(riskRegression)
 library(prodlim)
 
@@ -50,10 +51,10 @@ fgr.mod <- FGR(formula = Hist(time, event) ~ X6 + X7 + X8 + X9,
 horizon <- median(sim.data$time)
 sim.data$preds <- predictRisk(fgr.mod, sim.data, cause = 1, time = horizon)
 
-#calibrate(sim.data, horizon, 10, preds, time, events, 1)
-#calibrate2(sim.data, horizon, 10, preds, time, events, 1)
-calibrate3(sim.data, horizon, 10, preds, time, events, 1)
-
+calibrate(sim.data, horizon, 10, preds, time, event, 1)
+calibrate2(sim.data, horizon, 10, preds, time, event, 1)
+calibrate3(sim.data, horizon, 10, preds, time, event, 1)
+}
 }
 \author{
 Matthew T. Warkentin

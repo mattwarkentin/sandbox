@@ -18,7 +18,7 @@ gsu <- function(.data, ..., .slices = 1) {
   gp_vars <- rlang::enquos(...)
 
   .data %>%
-    dplyr::group_by(!!!...) %>%
+    dplyr::group_by(!!!gp_vars) %>%
     dplyr::slice(.slices) %>%
     dplyr::ungroup()
 

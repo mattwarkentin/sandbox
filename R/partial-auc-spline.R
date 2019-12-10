@@ -7,6 +7,8 @@
 #' @param spec Column name in \code{data} for specificity.
 #' @param range Range of sensitivity or specificity to integrate.
 #' @param focus String describing whether the integration range is for sensitivity or specificity.
+#' @param smooth Logical. Should binormal smoothing be used?
+#' @param correct Logical. Should a min-max correction be applied?
 #' @param n Number of equally-spaced points for smooth curve calculations.
 #' @param plot Logical. Should a partial AUC plot be returned?
 #' @param opts List of options passed to plotting function if \code{plot = TRUE}. See details.
@@ -32,7 +34,7 @@
 #' dd <- tibble::tibble(sens = runif(100), spec = runif(100))
 #'
 #' partAUC(dd, sens, spec, range = c(1, 0.8))
-#' partAUC(dd, sens, spec, range = c(1, 0.8), smooth = T, correct = T)
+#' partAUC(dd, sens, spec, range = c(1, 0.8), smooth = TRUE, correct = TRUE)
 #'
 #' @export
 
@@ -92,7 +94,7 @@ partAUC <- function(data = NULL, sens = NULL, spec = NULL,
 
   cat(glue::glue('{smoothed}Partial AUC ({focus} {range[1]}-{range[2]}): {round(p_auc, 4)} {corrected}\n'))
 
-  x <- dplyr::bind_cols(auc = p_auc, tidyr::nest(data, .key = 'roc'))
+  x <- dplyr::bind_cols(auc = p_auc, tidyr::nest(data, roc = c(sens, spec)))
 
   if (plot) {
     p <- plot_partial_auc(data = data, sens = sens, spec = spec,

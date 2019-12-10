@@ -29,6 +29,10 @@ partAUC(
 
 \item{focus}{String describing whether the integration range is for sensitivity or specificity.}
 
+\item{smooth}{Logical. Should binormal smoothing be used?}
+
+\item{correct}{Logical. Should a min-max correction be applied?}
+
 \item{n}{Number of equally-spaced points for smooth curve calculations.}
 
 \item{plot}{Logical. Should a partial AUC plot be returned?}
@@ -62,6 +66,6 @@ The list of options (\code{opts}) that can be passed to the plotting function ar
 dd <- tibble::tibble(sens = runif(100), spec = runif(100))
 
 partAUC(dd, sens, spec, range = c(1, 0.8))
-partAUC(dd, sens, spec, range = c(1, 0.8), smooth = T, correct = T)
+partAUC(dd, sens, spec, range = c(1, 0.8), smooth = TRUE, correct = TRUE)
 
 }

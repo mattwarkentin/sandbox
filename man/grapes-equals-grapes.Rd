@@ -7,11 +7,9 @@
 a \%==\% b
 }
 \arguments{
-\item{a}{Numeric vector}
+\item{a}{Numeric vector.}
 
-\item{b}{Numeric vector}
-
-\item{digits}{Integer number of digits for equality test}
+\item{b}{Numeric vector.}
 }
 \description{
 Test for approximate equality of two vectors.

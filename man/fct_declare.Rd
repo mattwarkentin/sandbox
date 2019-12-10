@@ -2,14 +2,19 @@
 % Please edit documentation in R/factor-ref-level.R
 \name{fct_declare}
 \alias{fct_declare}
+\alias{fct_recover}
 \title{Declare and Recover Factor Reference Level}
 \usage{
 fct_declare(data, ..., .sep = "")
+
+fct_recover(data, .null = NULL)
 }
 \arguments{
 \item{data}{Data frame.}
 
 \item{...}{Factor variables to declare.}
+
+\item{.sep}{Delimeter.}
 
 \item{.null}{Null effect size.}
 }

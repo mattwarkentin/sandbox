@@ -21,7 +21,16 @@ Imports:
     tibble,
     ggplot2,
     recipes,
-    magrittr
+    magrittr,
+    cli,
+    forcats,
+    lmtest,
+    pROC,
+    purrr,
+    rlang,
+    sandwich,
+    scales,
+    tidyselect,
 Suggests: 
     knitr,
     rmarkdown,

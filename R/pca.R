@@ -1,6 +1,6 @@
 #' Principal Component Analysis
 #'
-#' @description
+#' @description Tidy principal component analysis.
 #'
 #' @param data Data frame.
 #' @param center Logical. Should the data be centered?

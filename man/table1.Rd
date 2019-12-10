@@ -41,6 +41,8 @@ table1_categorical(
 \item{total}{Logical. Should a total column be added? (Default is FALSE) This argument only matters when a grouping variable is provided.}
 
 \item{na.rm}{Logical. Should missing data be remove before computing summary statisitcs? (Default is FALSE)}
+
+\item{na_level}{String to display for missing levels.}
 }
 \value{
 A \code{\link[tibble]{tibble}} with as many rows as the number of columns provided to \code{...}, and as many columns as levels in \code{group}. Cell values are \code{\link[glue]{glue}} objects.

@@ -3,10 +3,13 @@
 #' @description Text goes here...
 #'
 #' @param data Data frame.
+#' @param .sep Delimeter.
 #' @param ... Factor variables to declare.
 #' @param .null Null effect size.
 #'
 #' @details Text here...
+#'
+#' @name fct_declare
 #'
 #' @return The input data is returned with attributes attached.
 
@@ -34,7 +37,8 @@ fct_declare <- function(data, ..., .sep = "") {
   tib
 }
 
-
+#' @export
+#' @rdname fct_declare
 fct_recover <- function(data, .null = NULL){
   assertthat::assert_that(!is.null(.null),
                           msg = "You must specify the null effect!")

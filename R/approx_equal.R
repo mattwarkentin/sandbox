@@ -2,12 +2,11 @@
 #'
 #' @description Test for approximate equality of two vectors.
 #'
-#' @param a Numeric vector
-#' @param b Numeric vector
-#' @param digits Integer number of digits for equality test
+#' @param a Numeric vector.
+#' @param b Numeric vector.
 #'
 #' @export
 
-'%==%' <- function(a, b, digits = 10) {
-  return(signif(a, digits) == signif(b, digits))
+'%==%' <- function(a, b) {
+  return(signif(a, 10) == signif(b, 10))
 }
