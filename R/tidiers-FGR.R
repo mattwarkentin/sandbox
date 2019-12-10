@@ -44,7 +44,7 @@ tidy.FGR <- function(x, conf.int = FALSE,
   var <- vcov_FGR(x)
   summ <- summary_FGR(x, conf.level)
 
-  tidy_FGR <- tibble(
+  tidy_FGR <- tibble::tibble(
     term = names(coefs),
     estimate = coefs,
     std.error = summ$coef[, 'se(coef)'],
@@ -52,7 +52,7 @@ tidy.FGR <- function(x, conf.int = FALSE,
     p.value = summ$coef[, 'p-value'])
 
   if (conf.int){
-    cis <- tibble(
+    cis <- tibble::tibble(
       conf.low = log(summ$conf.int[, 3]),
       conf.high = log(summ$conf.int[, 4]))
     tidy_FGR <- bind_cols(tidy_FGR, cis)

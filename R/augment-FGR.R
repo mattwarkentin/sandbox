@@ -29,6 +29,7 @@
 #'
 #' @examples
 #' library(riskRegression)
+#' library(prodlim)
 #' sim.data <- sampleData(50, outcome = 'competing.risks')
 #' fgr.model <- FGR(Hist(time, event) ~ X10, data = sim.data, cause = 1)
 #' #tidy(fgr.model)
@@ -37,5 +38,5 @@
 #'
 
 augment.FGR <- function() {
-
+  NULL
 }

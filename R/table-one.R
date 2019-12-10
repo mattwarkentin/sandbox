@@ -41,28 +41,28 @@ table1_numeric <- function(data, ..., group = NULL,
       select(.total)
 
     data <- data %>%
-      select({{ group }}, ...) %>%
-      gather(key = 'term', value = 'data', - {{ group }}) %>%
-      group_by({{ group }}, term) %>%
-      summarise(val = glue::glue('{sprintf(sprint, round(mean(data, na.rm = na.rm), round))} [{sprintf(sprint, round(sd(data, na.rm = na.rm), round))}]')) %>%
-      spread({{ group }}, val)
+      dplyr::select({{ group }}, ...) %>%
+      tidyr::gather(key = 'term', value = 'data', - {{ group }}) %>%
+      dplyr::group_by({{ group }}, term) %>%
+      dplyr::summarise(val = glue::glue('{sprintf(sprint, round(mean(data, na.rm = na.rm), round))} [{sprintf(sprint, round(sd(data, na.rm = na.rm), round))}]')) %>%
+      tidyr::spread({{ group }}, val)
 
-    data <- bind_cols(data, total)
+    data <- dplyr::bind_cols(data, total)
     data
   } else if (!total && !is.null(group_expr)) {
     data <- data %>%
-      select({{ group }}, ...) %>%
-      gather(key = 'term', value = 'data', - {{ group }}) %>%
-      group_by({{ group }}, term) %>%
-      summarise(val = glue::glue('{sprintf(sprint, round(mean(data, na.rm = na.rm), round))} [{sprintf(sprint, round(sd(data, na.rm = na.rm), round))}]')) %>%
-      spread({{ group }}, val)
+      dplyr::select({{ group }}, ...) %>%
+      tidyr::gather(key = 'term', value = 'data', - {{ group }}) %>%
+      dplyr::group_by({{ group }}, term) %>%
+      dplyr::summarise(val = glue::glue('{sprintf(sprint, round(mean(data, na.rm = na.rm), round))} [{sprintf(sprint, round(sd(data, na.rm = na.rm), round))}]')) %>%
+      tidyr::spread({{ group }}, val)
     data
   } else {
     data <- data %>%
-      select(...) %>%
-      gather(key = 'term', value = 'data') %>%
-      group_by(term) %>%
-      summarise(.total = glue::glue('{sprintf(sprint, round(mean(data, na.rm = na.rm), round))} [{sprintf(sprint, round(sd(data, na.rm = na.rm), round))}]'))
+      dplyr::select(...) %>%
+      tidyr::gather(key = 'term', value = 'data') %>%
+      dplyr::group_by(term) %>%
+      dplyr::summarise(.total = glue::glue('{sprintf(sprint, round(mean(data, na.rm = na.rm), round))} [{sprintf(sprint, round(sd(data, na.rm = na.rm), round))}]'))
     data
   }
   data
@@ -92,7 +92,7 @@ table1_categorical <- function(data, ..., group = NULL,
   sprint <- glue::glue('%.{digits}f')
 
   data <- dplyr::select(data, {{ group }}, ...) %>%
-    mutate_at(vars({{ group }}), forcats::fct_explicit_na, na_level = na_level)
+    dplyr::mutate_at(vars({{ group }}), forcats::fct_explicit_na, na_level = na_level)
 
   data <- data %>% recipes::recipe(x = data) %>%
     recipes::step_dummy(vars, one_hot = TRUE) %>%

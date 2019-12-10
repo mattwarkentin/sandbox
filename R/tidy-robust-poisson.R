@@ -40,7 +40,7 @@ tidy_robpois <- function(data, formula, ci = 0.95, expo = FALSE){
     ul <- exp(ul)
   }
 
-  dd <- bind_cols('term' = names(coef(mm)),
+  dd <- dplyr::bind_cols('term' = names(coef(mm)),
                   'estimate' = est,
                   'conf.low' = ll,
                   'conf.high' = ul,

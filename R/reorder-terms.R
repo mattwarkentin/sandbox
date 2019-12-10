@@ -18,6 +18,6 @@ reorder_terms <- function(data, ..., order = letters, rev = FALSE) {
   if (rev) { levels <- rev(levels) }
 
   data <- data %>%
-    arrange_at(vars(...), ~factor(., levels = levels))
+    dplyr::arrange_at(dplyr::vars(...), ~factor(., levels = levels))
   data
 }

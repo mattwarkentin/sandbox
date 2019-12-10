@@ -116,36 +116,36 @@ plot_partial_auc <- function(data, sens, spec, range,
                              fcol = 'green', percent = FALSE,
                              spline_fun = NULL, opts) {
 
-  red_part <- tibble(fpr = seq(1-range[1], 1-range[2], length = 1000),
+  red_part <- tibble::tibble(fpr = seq(1-range[1], 1-range[2], length = 1000),
                      sens = spline_fun(fpr))
 
-  p <- ggplot() +
+  p <- ggplot2::ggplot() +
 
-    annotate("rect", xmin=1-range[1], xmax=1-range[2],
+    ggplot2::annotate("rect", xmin=1-range[1], xmax=1-range[2],
              ymin=0, ymax=1,
              alpha=0.1, fill="black") +
 
-    geom_ribbon(data = data, aes(x = 1 - {{ spec }},
+    ggplot2::geom_ribbon(data = data, ggplot2::aes(x = 1 - {{ spec }},
                                  ymin = 0, ymax = {{ sens }}),
                 alpha = 0.1, fill = 'green') +
 
-    geom_ribbon(data = red_part, aes(x = fpr,
+    ggplot2::geom_ribbon(data = red_part, ggplot2::aes(x = fpr,
                                      ymin = 0, ymax = {{ sens }}),
                 alpha = 0.5, fill = 'red') +
 
-    geom_abline(slope = 1, intercept = 0, lty = 2) +
+    ggplot2::geom_abline(slope = 1, intercept = 0, lty = 2) +
 
-    geom_path(data = data, aes(1 - {{ spec }}, {{ sens }}), size = 1) +
+    ggplot2::geom_path(data = data, ggplot2::aes(1 - {{ spec }}, {{ sens }}), size = 1) +
 
-    labs(x = '1 - Specificity',
+    ggplot2::labs(x = '1 - Specificity',
          y = 'Sensitivity') +
 
-    theme_light()
+    ggplot2::theme_light()
 
   if (percent) {
     p <- p +
-      scale_x_continuous(labels = scales::percent_format()) +
-      scale_y_continuous(labels = scales::percent_format())
+      ggplot2::scale_x_continuous(labels = scales::percent_format()) +
+      ggplot2::scale_y_continuous(labels = scales::percent_format())
   }
   p
 }

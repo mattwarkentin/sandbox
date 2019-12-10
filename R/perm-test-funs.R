@@ -64,7 +64,7 @@ perms <- function(data = NULL, ..., strata = NULL,
       dplyr::group_nest(id) %>%
       dplyr::mutate(id = glue::glue('{stringr::str_pad(id, max(nchar(times)), side = "left", pad = "0")}'),
                     id = glue::glue('Permutation{id}')) %>%
-      mutate(data = purrr::map(data, ~strat_bake(., !!strata_quo, rec)))
+      dplyr::mutate(data = purrr::map(data, ~strat_bake(., !!strata_quo, rec)))
 
   } else {
     stop(glue::glue('Variable ({as.character(strata_expr)}) must be a column in supplied data set!'))
@@ -100,12 +100,12 @@ perms <- function(data = NULL, ..., strata = NULL,
 
 # Helper function to perform stratified shuffling
 strat_bake <- function(data, strata, recipe){
-  strata <- enquo(strata)
+  strata <- dplyr::enquo(strata)
 
   data %>%
-    group_nest({{ strata }}, keep = TRUE) %>%
-    mutate({{ strata }} := purrr::map(data, ~bake(recipe, new_data = .))) %>%
-    unnest({{ strata }})
+    dplyr::group_nest({{ strata }}, keep = TRUE) %>%
+    dplyr::mutate({{ strata }} := purrr::map(data, ~bake(recipe, new_data = .))) %>%
+    tidyr::unnest({{ strata }})
 }
 
 #' @export

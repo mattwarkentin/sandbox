@@ -40,6 +40,7 @@ If you have missing values in your model data, you may need to refit the model w
 }
 \examples{
 library(riskRegression)
+library(prodlim)
 sim.data <- sampleData(50, outcome = 'competing.risks')
 fgr.model <- FGR(Hist(time, event) ~ X10, data = sim.data, cause = 1)
 #tidy(fgr.model)

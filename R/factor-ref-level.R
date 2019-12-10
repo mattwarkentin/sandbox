@@ -16,8 +16,8 @@ fct_declare <- function(data, ..., .sep = "") {
   vars <- tidyselect::vars_select(names(data), ...)
 
   data <- data %>%
-    select({{ vars }}) %>%
-    mutate_all(forcats::as_factor)
+    dplyr::select({{ vars }}) %>%
+    dplyr::mutate_all(forcats::as_factor)
 
   create_fcts <- function(level, sep = .sep){
     name <- names(level)
