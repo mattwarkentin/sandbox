@@ -8,11 +8,9 @@
 \alias{matts_pals}
 \title{Matts Custom Colours}
 \usage{
-scale_color_matt(palette = "rainbow", discrete = TRUE,
-  reverse = FALSE, ...)
+scale_color_matt(palette = "rainbow", discrete = TRUE, reverse = FALSE, ...)
 
-scale_fill_matt(palette = "rainbow", discrete = TRUE,
-  reverse = FALSE, ...)
+scale_fill_matt(palette = "rainbow", discrete = TRUE, reverse = FALSE, ...)
 
 matts_cols(...)
 

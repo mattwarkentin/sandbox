@@ -4,8 +4,14 @@
 \alias{perms}
 \title{Permutation Resampling}
 \usage{
-perms(data = NULL, ..., strata = NULL, times = 25,
-  apparent = FALSE, seed = NULL)
+perms(
+  data = NULL,
+  ...,
+  strata = NULL,
+  times = 25,
+  apparent = FALSE,
+  seed = NULL
+)
 }
 \arguments{
 \item{data}{A data frame.}

@@ -6,12 +6,26 @@
 \alias{table1_categorical}
 \title{Table One Tibbles}
 \usage{
-table1_numeric(data, ..., group = NULL, round = 2, digits = round,
-  total = FALSE, na.rm = FALSE)
+table1_numeric(
+  data,
+  ...,
+  group = NULL,
+  round = 2,
+  digits = round,
+  total = FALSE,
+  na.rm = FALSE
+)
 
-table1_categorical(data, ..., group = NULL, round = 2,
-  digits = round, total = FALSE, na.rm = FALSE,
-  na_level = "(Missing)")
+table1_categorical(
+  data,
+  ...,
+  group = NULL,
+  round = 2,
+  digits = round,
+  total = FALSE,
+  na.rm = FALSE,
+  na_level = "(Missing)"
+)
 }
 \arguments{
 \item{data}{Data frame.}

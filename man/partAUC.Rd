@@ -4,9 +4,19 @@
 \alias{partAUC}
 \title{Partial Area Under the Curve}
 \usage{
-partAUC(data = NULL, sens = NULL, spec = NULL, range = c(1, 0),
-  focus = "sp", smooth = FALSE, correct = FALSE, n = 10000,
-  plot = FALSE, opts = list(), ...)
+partAUC(
+  data = NULL,
+  sens = NULL,
+  spec = NULL,
+  range = c(1, 0),
+  focus = "sp",
+  smooth = FALSE,
+  correct = FALSE,
+  n = 10000,
+  plot = FALSE,
+  opts = list(),
+  ...
+)
 }
 \arguments{
 \item{data}{Data frame.}

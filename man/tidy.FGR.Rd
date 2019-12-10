@@ -4,8 +4,7 @@
 \alias{tidy.FGR}
 \title{Broom tidiers for Fine and Gray models.}
 \usage{
-tidy.FGR(x, conf.int = FALSE, conf.level = 0.95,
-  exponentiate = FALSE)
+tidy.FGR(x, conf.int = FALSE, conf.level = 0.95, exponentiate = FALSE)
 }
 \arguments{
 \item{x}{A \code{FGR} object created by \code{\link[riskRegression]{FGR}}}
