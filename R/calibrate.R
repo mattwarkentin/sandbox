@@ -12,7 +12,7 @@
 #' @param cens Censor status
 #' @param cause Integer value for the event-of-interest to calibrate prediction
 #'
-#' @details These functions uses non-standard evaluation (tidy_eval). Thus, you can pass \code{predvar}, \code{time}, and \code{cens} as unquoted.
+#' @details These functions use non-standard evaluation (tidy_eval). Thus, you can pass \code{predvar}, \code{time}, and \code{cens} as unquoted.
 #'
 #' \code{calibrate} uses \code{\link[dplyr]{ntile}} to place observations into groups based on predicted risks. \code{calibrate2} uses \code{\link[stats]{quantile}} and \code{\link[base]{cut}}, instead. This produces calibration metrics equivalent to \href{http://individual.utoronto.ca/osaarela/validstats-manual.pdf}{validstats::cical}. Lastly, \code{calibrate3} uses the same discretization as \code{calibrate} but uses \code{\link[cmprsk]{cuminc}} instead of \href{http://individual.utoronto.ca/osaarela/validstats-manual.pdf}{validstats::cif} to compute the cumulative incidence function.
 #'
@@ -21,6 +21,7 @@
 #'
 #' @examples
 #' library(riskRegression)
+#' library(survival)
 #'
 #' # Simulate Data
 #' sim.data <- sampleData(100, outcome = 'competing.risks')
@@ -141,8 +142,8 @@ calibrate2 <- function(data, horizon, ng, predvar, time, cens, cause) {
 
 }
 
-# Same as calibrate but uses cmprsk::cuminc instead of validstats::cif
-# Thus is isn't forced to use 32-bit R, like validstats
+# Same as calibrate() but uses cmprsk::cuminc instead of
+# validstats::cif. Thus isn't forced to use 32-bit R, like validstats
 calibrate3 <- function(data, horizon, ng, predvar, time, cens, cause) {
   time <- dplyr::enquo(time)
   cens <- dplyr::enquo(cens)
