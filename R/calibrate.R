@@ -21,7 +21,7 @@
 #'
 #' @examples
 #' library(riskRegression)
-#' library(survival)
+#' library(prodlim)
 #'
 #' # Simulate Data
 #' sim.data <- sampleData(100, outcome = 'competing.risks')
