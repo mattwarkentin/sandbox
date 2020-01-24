@@ -36,15 +36,15 @@ table1_numeric <- function(data, ..., group = NULL,
   if (total && !is.null(group_expr)) {
     total <- data %>%
       select(...) %>%
-      gather(key = 'term', value = 'data') %>%
-      group_by(term) %>%
+      gather(key = 'var', value = 'data') %>%
+      group_by(var) %>%
       summarise(.total = glue::glue('{sprintf(sprint, round(mean(data, na.rm = na.rm), round))} [{sprintf(sprint, round(sd(data, na.rm = na.rm), round))}]')) %>%
       select(.total)
 
     data <- data %>%
       dplyr::select({{ group }}, ...) %>%
-      tidyr::gather(key = 'term', value = 'data', - {{ group }}) %>%
-      dplyr::group_by({{ group }}, term) %>%
+      tidyr::gather(key = 'var', value = 'data', - {{ group }}) %>%
+      dplyr::group_by({{ group }}, var) %>%
       dplyr::summarise(val = glue::glue('{sprintf(sprint, round(mean(data, na.rm = na.rm), round))} [{sprintf(sprint, round(sd(data, na.rm = na.rm), round))}]')) %>%
       tidyr::spread({{ group }}, val)
 
@@ -53,16 +53,16 @@ table1_numeric <- function(data, ..., group = NULL,
   } else if (!total && !is.null(group_expr)) {
     data <- data %>%
       dplyr::select({{ group }}, ...) %>%
-      tidyr::gather(key = 'term', value = 'data', - {{ group }}) %>%
-      dplyr::group_by({{ group }}, term) %>%
+      tidyr::gather(key = 'var', value = 'data', - {{ group }}) %>%
+      dplyr::group_by({{ group }}, var) %>%
       dplyr::summarise(val = glue::glue('{sprintf(sprint, round(mean(data, na.rm = na.rm), round))} [{sprintf(sprint, round(sd(data, na.rm = na.rm), round))}]')) %>%
       tidyr::spread({{ group }}, val)
     data
   } else {
     data <- data %>%
       dplyr::select(...) %>%
-      tidyr::gather(key = 'term', value = 'data') %>%
-      dplyr::group_by(term) %>%
+      tidyr::gather(key = 'var', value = 'data') %>%
+      dplyr::group_by(var) %>%
       dplyr::summarise(.total = glue::glue('{sprintf(sprint, round(mean(data, na.rm = na.rm), round))} [{sprintf(sprint, round(sd(data, na.rm = na.rm), round))}]'))
     data
   }
